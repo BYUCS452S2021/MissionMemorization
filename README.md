@@ -3,7 +3,7 @@
 ## Make Memorizing Scriptures Easier!
 ---
 
-## Tyler and I are still open to have someone else join us if you are looking for a group!
+## Tyler and I are still open to having someone else join us if you are still looking for a group!
 
 ## Contact either of us on Slack - Grant Lewis or Tyler Dean
 
