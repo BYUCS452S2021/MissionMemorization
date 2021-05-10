@@ -2,6 +2,11 @@
 
 ## Make Memorizing Scriptures Easier!
 
+## Team Members:
+
+### Tyler Dean, Joseph Gillespie, and Grant Lewis
+
+
 ### Project description
 
 While there are already several services meant to aid in scripture memorization, many of these services require unnecessary amounts of time to set up and get going.  Similarly, it can be quite time consuming to copy down passages by hand.  Oftentimes, missionaries for The Church of Jesus Christ of Latter-day Saints would like to dedicate time have limited amounts of time to dedicate to create and manage scripture memorization plans.  It can be extremely time consuming to rewrite scriptures.
