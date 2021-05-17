@@ -1,0 +1,18 @@
+CREATE TABLE "BookInfo" (
+	"book_id"	INTEGER NOT NULL UNIQUE,
+	"book_name"	TEXT NOT NULL UNIQUE,
+	"book_abrev"	TEXT NOT NULL UNIQUE,
+	"volume"	TEXT NOT NULL,
+	"volume_url"	TEXT NOT NULL,
+	"book_url"	TEXT NOT NULL UNIQUE,
+	PRIMARY KEY("book_id" AUTOINCREMENT)
+);
+
+CREATE TABLE "VerseSource" (
+	"verse_id"	INTEGER NOT NULL UNIQUE,
+	"book_id"	INTEGER NOT NULL,
+	"chapter"	INTEGER NOT NULL,
+	"verse_num"	INTEGER NOT NULL,
+	"text"	TEXT NOT NULL,
+	PRIMARY KEY("verse_id" AUTOINCREMENT)
+);
