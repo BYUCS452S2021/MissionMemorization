@@ -16,3 +16,21 @@ CREATE TABLE "VerseSource" (
 	"text"	TEXT NOT NULL,
 	PRIMARY KEY("verse_id" AUTOINCREMENT)
 );
+
+CREATE TABLE "Project" (
+	"project_id"	INTEGER NOT NULL UNIQUE,
+	"user_id"	INTEGER NOT NULL,
+	"folder_id"	INTEGER,
+	"completed"	INTEGER,
+	"attempts"	INTEGER,
+	"corrects"	INTEGER,
+	PRIMARY KEY("project_id" AUTOINCREMENT)
+);
+
+CREATE TABLE "ProjectVerse" (
+	"project_id"	INTEGER NOT NULL,
+	"verse_id"	INTEGER NOT NULL,
+	PRIMARY KEY("project_id","verse_id"),
+	FOREIGN KEY("project_id") REFERENCES "Project"("project_id"),
+	FOREIGN KEY("verse_id") REFERENCES "VerseSource"("verse_id") ON DELETE SET NULL
+);
