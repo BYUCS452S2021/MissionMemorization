@@ -6,22 +6,28 @@ const sqlite3 = require('sqlite3').verbose();
 const router = express.Router();
 
 
+// TODO:  Finish SQL Commands and connect/disconnect to the db on every call
+
+
+
+
 const DB_FILE_PATH = '../MissionMemorize/MissionMemorizeRelational.db'
 
 // This is a method that we can call on User objects to compare the hash of the
 // password the browser sends with the has of the user's true password stored in
 // the database.
-comparePassword() = async function(password) {
-  try {
-    // note that we supply the hash stored in the database (first argument) and
-    // the plaintext password. argon2 will do the hashing and salting and
-    // comparison for us.
-    const isMatch = await argon2.verify(this.password, password);
-    return isMatch;
-  } catch (error) {
-    return false;
-  }
-};
+// comparePassword() = async function(password) {
+//   try {
+//     // note that we supply the hash stored in the database (first argument) and
+//     // the plaintext password. argon2 will do the hashing and salting and
+//     // comparison for us.
+//     const isMatch = await argon2.verify(this.password, password);
+//     return isMatch;
+//   } catch (error) {
+//     return false;
+//   }
+// };
+
 
 // This is a method that will be called automatically any time we convert a user
 // object to JSON. It deletes the password hash from the object. This ensures
@@ -42,19 +48,50 @@ const validUser = async (req, res, next) => {
       message: "not logged in"
     });
   try {
+    
+    let db = new sqlite3.Database('../MissionMemorizeRelational.db')
+// TODO: Make sure this is right
+    query = "SELECT COUNT(user_id) AS count FROM User" +
+            "WHERE user_id = ?";
+    count = 0
+    db.get(query, [req.session.userID], (err, row) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      count = row.count
+    });
 
 
-// TODO: Look for the User (use user_id) should only return one
-
-
-
-    if (!user) {
+    if (count != 1) {
       return res.status(403).send({
         message: "not logged in"
       });
     }
     // set the user field in the request
-    req.user = user;
+
+    query = "SELECT username, first_name, last_name, email as count FROM User" +
+            "WHERE user_id = ?";
+    user = db.get(query, [req.session.userID], (err, row) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      return row
+        ? console.log(row.username)
+        : console.log(`No user logged in right now`);
+    });
+
+    db.close
+
+
+    req.user = {
+      username: user.username,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email
+    };
+
+    db.close();
+
   } catch (error) {
     // Return an error if user does not exist.
     return res.status(403).send({
@@ -65,6 +102,9 @@ const validUser = async (req, res, next) => {
   // if everything succeeds, move to the next middleware
   next();
 };
+
+
+
 
 /* API Endpoints */
 
@@ -85,6 +125,10 @@ router.post('/', async (req, res) => {
 
 
 // TODO check if user or email exists!!!!
+    query = "SELECT COUNT(username), COUNT(email) FROM User" +
+            "WHERE username = '?' OR email = '?'";
+
+// FINISH ME!
 
 
     if (existingUser)

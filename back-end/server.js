@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 // const mongoose = require('mongoose');
 const sqlite3 = require('sqlite3').verbose();
 
-const DB_FILE_PATH = '../MissionMemorize/MissionMemorizeRelational.db'
+const DB_FILE_PATH = '../MissionMemorizeRelational.db'
 
 // setup express
 const app = express();
@@ -50,8 +50,10 @@ app.use("/api/users", users.routes);
 const verses = require("./verses.js");
 app.use("/api/verses", verses.routes);
 
-const foldersprojects = require("./foldersprojects.js");
+const folders = require("./folders.js");
 app.use("/api/folders", foldersprojects.routes);
+
+const projects = require("./projects.js");
 app.use("/api/projects", foldersprojects.routes);
 
 
