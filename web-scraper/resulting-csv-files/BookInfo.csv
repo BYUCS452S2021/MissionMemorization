@@ -1,0 +1,88 @@
+book_id,book_name,book_abrev,volume_name,volume_url,book_url
+1,Genesis,Gen,The Old Testament,ot,gen
+2,Exodus,Ex,The Old Testament,ot,ex
+3,Leviticus,Lev,The Old Testament,ot,lev
+4,Numbers,Num,The Old Testament,ot,num
+5,Deuteronomy,Deut,The Old Testament,ot,deut
+6,Joshua,Josh,The Old Testament,ot,josh
+7,Judges,Judg,The Old Testament,ot,judg
+8,Ruth,Ruth,The Old Testament,ot,ruth
+9,1 Samuel,1 Sam,The Old Testament,ot,1-sam
+10,2 Samuel,2 Sam,The Old Testament,ot,2-sam
+11,1 Kings,1 Kgs,The Old Testament,ot,1-kgs
+12,2 Kings,2 Kgs,The Old Testament,ot,2-kgs
+13,1 Chronicles,1 Chr,The Old Testament,ot,1-chr
+14,2 Chronicles,2 Chr,The Old Testament,ot,2-chr
+15,Ezra,Ezra,The Old Testament,ot,ezra
+16,Nehemiah,Neh,The Old Testament,ot,neh
+17,Esther,Esth,The Old Testament,ot,esth
+18,Job,Job,The Old Testament,ot,job
+19,Psalms,Ps,The Old Testament,ot,ps
+20,Proverbs,Prov,The Old Testament,ot,prov
+21,Ecclesiastes,Eccl,The Old Testament,ot,eccl
+22,Song of Solomon,Song,The Old Testament,ot,song
+23,Isaiah,Isa,The Old Testament,ot,isa
+24,Jeremiah,Jer,The Old Testament,ot,jer
+25,Lamentations,Lam,The Old Testament,ot,lam
+26,Ezekiel,Ezek,The Old Testament,ot,ezek
+27,Daniel,Dan,The Old Testament,ot,dan
+28,Hosea,Hosea,The Old Testament,ot,hosea
+29,Joel,Joel,The Old Testament,ot,joel
+30,Amos,Amos,The Old Testament,ot,amos
+31,Obadiah,Obad,The Old Testament,ot,obad
+32,Jonah,Jonah,The Old Testament,ot,jonah
+33,Micah,Micah,The Old Testament,ot,micah
+34,Nahum,Nahum,The Old Testament,ot,nahum
+35,Habakkuk,Hab,The Old Testament,ot,hab
+36,Zephaniah,Zeph,The Old Testament,ot,zeph
+37,Haggai,Hag,The Old Testament,ot,hag
+38,Zechariah,Zech,The Old Testament,ot,zech
+39,Malachi,Mal,The Old Testament,ot,mal
+40,Matthew,Matt,The New Testament,nt,matt
+41,Mark,Mark,The New Testament,nt,mark
+42,Luke,Luke,The New Testament,nt,luke
+43,John,John,The New Testament,nt,john
+44,Acts,Acts,The New Testament,nt,acts
+45,Romans,Rom,The New Testament,nt,rom
+46,1 Corinthians,1 Cor,The New Testament,nt,1-cor
+47,2 Corinthians,2 Cor,The New Testament,nt,2-cor
+48,Galatians,Gal,The New Testament,nt,gal
+49,Ephesians,Eph,The New Testament,nt,eph
+50,Philippians,Philip,The New Testament,nt,philip
+51,Colossians,Col,The New Testament,nt,col
+52,1 Thessalonians,1 Thes,The New Testament,nt,1-thes
+53,2 Thessalonians,2 Thes,The New Testament,nt,2-thes
+54,1 Timothy,1 Tim,The New Testament,nt,1-tim
+55,2 Timothy,2 Tim,The New Testament,nt,2-tim
+56,Titus,Titus,The New Testament,nt,titus
+57,Philemon,Philem,The New Testament,nt,philem
+58,Hebrews,Heb,The New Testament,nt,heb
+59,James,James,The New Testament,nt,james
+60,1 Peter,1 Pet,The New Testament,nt,1-pet
+61,2 Peter,2 Pet,The New Testament,nt,2-pet
+62,1 John,1 Jn,The New Testament,nt,1-jn
+63,2 John,2 Jn,The New Testament,nt,2-jn
+64,3 John,3 Jn,The New Testament,nt,3-jn
+65,Jude,Jude,The New Testament,nt,jude
+66,Revelation,Rev,The New Testament,nt,rev
+67,1 Nephi,1 Ne,The Book of Mormon,bofm,1-ne
+68,2 Nephi,2 Ne,The Book of Mormon,bofm,2-ne
+69,Jacob,Jacob,The Book of Mormon,bofm,jacob
+70,Enos,Enos,The Book of Mormon,bofm,enos
+71,Jarom,Jarom,The Book of Mormon,bofm,jarom
+72,Omni,Omni,The Book of Mormon,bofm,omni
+73,Words of Mormon,W of M,The Book of Mormon,bofm,w-of-m
+74,Mosiah,Mosiah,The Book of Mormon,bofm,mosiah
+75,Alma,Alma,The Book of Mormon,bofm,alma
+76,Helaman,Hel,The Book of Mormon,bofm,hel
+77,3 Nephi,3 Ne,The Book of Mormon,bofm,3-ne
+78,4 Nephi,4 Ne,The Book of Mormon,bofm,4-ne
+79,Mormon,Morm,The Book of Mormon,bofm,morm
+80,Ether,Ether,The Book of Mormon,bofm,ether
+81,Moroni,Moro,The Book of Mormon,bofm,moro
+82,Doctrine and Covenants,D&C,The Doctrine and Covenants,dc-testament,dc
+83,Moses,Moses,The Pearl of Great Price,pgp,moses
+84,Abraham,Abr,The Pearl of Great Price,pgp,abr
+85,Joseph Smith--Matthew,JS-M,The Pearl of Great Price,pgp,js-m
+86,Joseph Smith--History,JS-H,The Pearl of Great Price,pgp,js-h
+87,Articles of Faith,A of F,The Pearl of Great Price,pgp,a-of-f
