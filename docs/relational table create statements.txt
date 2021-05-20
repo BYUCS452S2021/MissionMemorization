@@ -24,7 +24,9 @@ CREATE TABLE "Project" (
 	"completed"	INTEGER,
 	"attempts"	INTEGER,
 	"corrects"	INTEGER,
-	PRIMARY KEY("project_id" AUTOINCREMENT)
+	PRIMARY KEY("project_id" AUTOINCREMENT),
+	FOREIGN KEY("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE,
+	FOREIGN KEY("folder_id") REFERENCES "Folder"("folder_id") ON DELETE SET NULL
 );
 
 CREATE TABLE "ProjectVerse" (
@@ -33,4 +35,22 @@ CREATE TABLE "ProjectVerse" (
 	PRIMARY KEY("project_id","verse_id"),
 	FOREIGN KEY("project_id") REFERENCES "Project"("project_id"),
 	FOREIGN KEY("verse_id") REFERENCES "VerseSource"("verse_id") ON DELETE SET NULL
+);
+
+CREATE TABLE "User" (
+	"user_id"	INTEGER NOT NULL UNIQUE,
+	username 	TEXT NOT NULL UNIQUE,
+	password	TEXT NOT NULL,
+	email		TEXT NOT NULL,
+	first_name	TEXT NOT NULL,
+	last_name	TEXT NOT NULL,
+	PRIMARY KEY("user_id" AUTOINCREMENT)
+);
+
+CREATE TABLE "Folder" (
+	"folder_id"	INTEGER NOT NULL UNIQUE,
+	"user_id" 	INTEGER NOT NULL,
+	"folder_name"	TEXT NOT NULL,
+	PRIMARY KEY("folder_id" AUTOINCREMENT),
+	FOREIGN KEY("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE
 );
