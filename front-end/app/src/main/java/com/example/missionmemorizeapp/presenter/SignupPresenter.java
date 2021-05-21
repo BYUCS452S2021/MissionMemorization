@@ -1,7 +1,10 @@
 package com.example.missionmemorizeapp.presenter;
 
 import com.example.missionmemorizeapp.model.CurrentSessionHolder;
+import com.example.missionmemorizeapp.model.Folder;
+import com.example.missionmemorizeapp.model.Project;
 import com.example.missionmemorizeapp.model.User;
+import com.example.missionmemorizeapp.model.Verse;
 import com.example.missionmemorizeapp.services.request.LoginRequest;
 import com.example.missionmemorizeapp.services.*;
 import com.example.missionmemorizeapp.services.request.SignupRequest;
@@ -28,6 +31,15 @@ public class SignupPresenter {
         SignupResponse response = signUpService.signUpUser(request);
         CurrentSessionHolder.getInstance().setSignedInUser(
                 new User(response.getFirstName(), response.getLastName(), response.getEmail(), response.getUsername()));
+        Verse newVerse = new Verse("3 Nephi", 21, 17, "And when he had said these words, he wept, and the multitude bare record of it, and he took their little children, one by one, and blessed them, and prayed unto the Father for them.");
+        Project newProject = new Project();
+        newProject.getVersesInProject().add(newVerse);
+        Folder newFolder = new Folder();
+        newFolder.setFolderName("Mission Verses");
+        newFolder.getProjectsInFolder().add(newProject);
+        CurrentSessionHolder.getInstance().getRootProjectsOfUser().add(newProject);
+        CurrentSessionHolder.getInstance().getFoldersOfUser().add(newFolder);
+
         return response;
     }
 }
