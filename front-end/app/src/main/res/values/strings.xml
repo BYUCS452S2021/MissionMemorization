@@ -14,4 +14,12 @@
     <string name="add_new_project">+ Project</string>
     <string name="folders">Folders</string>
     <string name="add_new_folder">+ Folder</string>
+    <string name="reference">Reference</string>
+    <string name="body">Body</string>
+    <string name="reveal">Reveal</string>
+    <string name="difficulty">Difficulty:</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="correct">Correct</string>
+    <string name="incorrect">Incorrect</string>
 </resources>

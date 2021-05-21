@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <dimen name="margin">10dp</dimen>
+    <dimen name="seekStartPos">2</dimen>
+    <dimen name="seekMax">10</dimen>
+
 </resources>

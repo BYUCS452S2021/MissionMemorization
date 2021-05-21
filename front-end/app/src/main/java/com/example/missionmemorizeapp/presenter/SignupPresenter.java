@@ -30,7 +30,7 @@ public class SignupPresenter {
         SignUpService signUpService = new SignUpService();
         SignupResponse response = signUpService.signUpUser(request);
         CurrentSessionHolder.getInstance().setSignedInUser(
-                new User(response.getFirstName(), response.getLastName(), response.getEmail(), response.getUsername()));
+                new User("Test", "User", "test@gmail.com", "test17"));
         Verse newVerse = new Verse("3 Nephi", 21, 17, "And when he had said these words, he wept, and the multitude bare record of it, and he took their little children, one by one, and blessed them, and prayed unto the Father for them.");
         Project newProject = new Project();
         newProject.getVersesInProject().add(newVerse);
