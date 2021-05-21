@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.MainActivity"></activity>
+        <activity android:name=".view.lessons.MemorizeActivity"></activity>
     </application>
 
 </manifest>
