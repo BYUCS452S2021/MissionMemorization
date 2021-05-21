@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0fa3fcc1-5346-42ea-b7d7-7bd7afbb0e79" name="Default Changelist" comment="" />
+    <list default="true" id="0fa3fcc1-5346-42ea-b7d7-7bd7afbb0e79" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/ic_trash-web.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/view/ProjectsRecyclerViewAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/drawable/ic_trash_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/drawable/ic_trash_foreground.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/layout/project_row.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-anydpi-v26/ic_trash.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-anydpi-v26/ic_trash_round.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-hdpi/ic_trash.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-hdpi/ic_trash_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-mdpi/ic_trash.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-mdpi/ic_trash_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-xhdpi/ic_trash.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-xhdpi/ic_trash_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-xxhdpi/ic_trash.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-xxhdpi/ic_trash_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-xxxhdpi/ic_trash.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/app/src/main/res/mipmap-xxxhdpi/ic_trash_round.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/model/CurrentSessionHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/model/CurrentSessionHolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/model/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/model/Project.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/model/Verse.java" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/model/Verse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/presenter/LoginPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/presenter/LoginPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/presenter/SignupPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/presenter/SignupPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/view/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/app/src/main/java/com/example/missionmemorizeapp/view/HomeFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/app/src/main/res/values/strings.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,10 +60,12 @@
     <option name="height" value="744" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="PackagesPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -48,16 +78,91 @@
               <item name="MissionMemorize" type="462c0819:PsiDirectoryNode" />
               <item name="front-end" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="MissionMemorize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MissionMemorize" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MissionMemorize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MissionMemorize" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MissionMemorize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MissionMemorize" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MissionMemorize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MissionMemorize" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MissionMemorize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MissionMemorize" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MissionMemorize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MissionMemorize" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MissionMemorize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MissionMemorize" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+              <item name="missionmemorizeapp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MissionMemorize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MissionMemorize" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+              <item name="missionmemorizeapp" type="462c0819:PsiDirectoryNode" />
+              <item name="network" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/front-end" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -86,23 +191,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.3296131" />
-      <window_info id="Structure" side_tool="true" />
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="Resources Explorer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Favorites" side_tool="true" />
       <window_info id="Captures" order="0" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="TODO" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Palette&#9;" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.3296131" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Designer" order="4" />
+      <window_info id="Resources Explorer" order="5" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="TODO" order="1" />
+      <window_info anchor="bottom" id="Terminal" order="2" />
+      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="right" id="Theme Preview" order="1" />
+      <window_info anchor="right" id="Palette&#9;" order="2" />
     </layout>
   </component>
 </project>
