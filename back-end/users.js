@@ -1,6 +1,7 @@
 const express = require("express");
 // const mongoose = require('mongoose');
 const argon2 = require("argon2");
+const { query } = require("express");
 const sqlite3 = require('sqlite3').verbose();
 
 const router = express.Router();
@@ -51,7 +52,7 @@ const validUser = async (req, res, next) => {
     
     let db = new sqlite3.Database('../MissionMemorizeRelational.db')
 // TODO: Make sure this is right
-    query = "SELECT COUNT(user_id) AS count FROM User" +
+    let query = "SELECT COUNT(user_id) AS count FROM User" +
             "WHERE user_id = ?";
     count = 0
     db.get(query, [req.session.userID], (err, row) => {
@@ -112,7 +113,7 @@ const validUser = async (req, res, next) => {
    module that imports this one to use a complete path, such as "/api/user" */
 
 // create a new user
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
   // Make sure that the form coming from the browser includes all required fields,
   // otherwise return an error. A 400 error means the request was
   // malformed.
@@ -123,55 +124,93 @@ router.post('/', async (req, res) => {
 
   try {
 
-
 // TODO check if user or email exists!!!!
-    query = "SELECT COUNT(username), COUNT(email) FROM User" +
+    let query = "SELECT COUNT(username) AS usercount, COUNT(email) AS emailcount FROM User" +
             "WHERE username = '?' OR email = '?'";
+    
+    let db = new sqlite3.Database('../MissionMemorizeRelational.db')
+    // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
+    let quality_check = db.get(query, [req.body.username, req.body.email], (err, row) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      return row
+        ? console.log(row.usercount)
+        : console.log(`No user logged in right now`);
+    });
 
-// FINISH ME!
+    db.close();
 
-
-    if (existingUser)
+    if (quality_check.usercount > 0) {
       return res.status(403).send({
         message: "username already exists"
       });
-
-    if (existingEmail)
+    } else if (quality_check.usercount > 0) {
       return res.status(403).send({
         message: "email already exists"
       });
+    }
+
 
     // Try hashing the password 
     try {
         // generate a hash. argon2 does the salting and hashing for us
         const hashedPass = await argon2.hash(this.req.body.password);
         // override the plaintext password with the hashed one
-        // let password = hash;
         
+        query = "INSERT INTO User (username, password, email, first_name, last_name)" +
+                "VALUES(?, ?, ?, ?, ?);"
+
+        db = new sqlite3.Database('../MissionMemorizeRelational.db')
+
+        let newUser = db.run(query, [req.body.username, hashedPass, req.body.email, req.body.first_name, req.body.last_name], function(err) {
+          if (err) {
+            return console.error(err.message);
+          }
+           console.log('${req.body.username} was added as a user');
+        });
+
+        db.close();
     } catch (error) {
         console.log(error);
         next(error);
     }
 
-      
-// TODO: ADD User to table  (Use hashedPass)
-
 
     // set user session info
     req.session.userID = user._id;
 
+
+//   *******************************  TODO:  Add Function Calls to folder and project
+//  CAN probably assume have no projects/folders
+
+
+
+
     // send back a 200 OK response, along with the user that was created
     return res.send({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        username: req.body.username,
-        email: req.body.email
+        user: {
+          username: req.body.username,
+          email: req.body.email,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName
+        }
+        
+
+// TODO:  Add returns for project and folder
+
+
+
     });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
 });
+
+
+
+
 
 // login a user
 router.post('/login', async (req, res) => {
@@ -182,6 +221,8 @@ router.post('/login', async (req, res) => {
 
   try {
     
+    let query = "SELECT * FROM User" +
+                "WHERE username = ?";
     
 // TODO:  lookup user record - should only get one (use username)
     //      If exists, store data
@@ -199,15 +240,20 @@ router.post('/login', async (req, res) => {
         // note that we supply the hash stored in the database (first argument) and
         // the plaintext password. argon2 will do the hashing and salting and
         // comparison for us.
-        
 
-// TODO: use stored hash as 'password' in lext problem
-
+  // CHECK - COuld cause problems
         const isMatch = await argon2.verify(req.body.password, password);
         isMatch = true;
     } catch (error) {
-        return false;
+        isMatch = false;
     }
+
+
+
+
+
+
+
 
     // Return the SAME error if the password is wrong. This ensure we don't
     // leak any information about which users exist.
@@ -216,11 +262,35 @@ router.post('/login', async (req, res) => {
         message: "username or password is wrong"
       });
 
+
+
+
+
+    //   *******************************  TODO:  Add Function Calls to folder and project
+    //  CAN probably assume have no projects/folders
+    
+    query = "SELECT * FROM Projects" +
+    "WHERE user_id"
+    
+    
+    
+        
+            
+
+
     // set user session info
     req.session.userID = user._id;
-
+    // send back a 200 OK response, along with the user that was created
     return res.send({
+      user: {
+        username: req.body.username,
+        email: req.body.email,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName
+      }
       
+
+// TODO:  Add returns for project and folder
 
 // TODO:  Return saved stuff but password and user_id
 

@@ -45,7 +45,7 @@ app.use(cookieSession({
 
 // import the users module and setup its API path
 const users = require("./users.js");
-app.use("/api/users", users.routes);
+app.use("/api/user", users.routes);
 
 const verses = require("./verses.js");
 app.use("/api/verses", verses.routes);
