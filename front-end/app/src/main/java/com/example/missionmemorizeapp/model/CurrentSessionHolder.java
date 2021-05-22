@@ -31,4 +31,8 @@ public class CurrentSessionHolder extends Application {
     public List<Folder> getFoldersOfUser() {
         return foldersOfUser;
     }
+
+    public User getSignedInUser() {
+        return signedInUser;
+    }
 }

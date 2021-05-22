@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +15,8 @@ import android.widget.Button;
 
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.CurrentSessionHolder;
+import com.example.missionmemorizeapp.view.dialogs.AddFolderDialog;
+import com.example.missionmemorizeapp.view.dialogs.AddProjectDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +62,8 @@ public class HomeFragment extends Fragment {
         addNewProjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add popup for new project
+                AddProjectDialog addProjectDialog = new AddProjectDialog();
+                addProjectDialog.show(getChildFragmentManager(), "MyFragment");
             }
         });
 
@@ -82,7 +84,8 @@ public class HomeFragment extends Fragment {
         addNewFolderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add popup for new folder
+                AddFolderDialog addFolderDialog = new AddFolderDialog();
+                addFolderDialog.show(getChildFragmentManager(), "MyFragment");
             }
         });
 

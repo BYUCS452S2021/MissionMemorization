@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.Project;
+import com.example.missionmemorizeapp.view.dialogs.ProjectInfoDialog;
 import com.example.missionmemorizeapp.view.lessons.MemorizeActivity;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class ProjectsRecyclerViewAdapter extends RecyclerView.Adapter<ProjectsRe
             projectRowLayout = itemView.findViewById(R.id.projectRowLayout);
         }
 
-        void bindProject(Project project) {
+        void bindProject(final Project project) {
             titleTextView.setText(project.getProjectName());
             trashImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,6 +77,14 @@ public class ProjectsRecyclerViewAdapter extends RecyclerView.Adapter<ProjectsRe
                 public void onClick(View v) {
                     Intent myIntent = new Intent(context, MemorizeActivity.class);
                     activity.startActivity(myIntent);
+                }
+            });
+            projectRowLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ProjectInfoDialog projectInfoDialog = new ProjectInfoDialog(project);
+                    projectInfoDialog.show(activity.getSupportFragmentManager(), "MyFragment");
+                    return true;
                 }
             });
         }

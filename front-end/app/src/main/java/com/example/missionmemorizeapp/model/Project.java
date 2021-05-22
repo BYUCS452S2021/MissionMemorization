@@ -18,6 +18,8 @@ public class Project {
     }
 
     public float getPercentage() {
+        if (numAttempts == 0)
+              return 0;
         return numCorrect / numAttempts;
     }
 
@@ -29,5 +31,21 @@ public class Project {
                 name.append(",");
         }
         return name.toString();
+    }
+
+    public int getNumAttempts() {
+        return numAttempts;
+    }
+
+    public int getNumCorrect() {
+        return numCorrect;
+    }
+
+    public void setNumAttempts(int numAttempts) {
+        this.numAttempts = numAttempts;
+    }
+
+    public void setNumCorrect(int numCorrect) {
+        this.numCorrect = numCorrect;
     }
 }

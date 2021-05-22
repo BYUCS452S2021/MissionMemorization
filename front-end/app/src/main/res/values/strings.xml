@@ -22,4 +22,8 @@
     <string name="back">Back</string>
     <string name="correct">Correct</string>
     <string name="incorrect">Incorrect</string>
+    <string name="folder_name">Folder Name</string>
+    <string name="input_references">List References</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

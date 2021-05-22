@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.CurrentSessionHolder;
 import com.example.missionmemorizeapp.model.Folder;
+import com.example.missionmemorizeapp.view.dialogs.AddProjectDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,7 +64,8 @@ public class FolderFragment extends Fragment {
         addNewProjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO add popup for new project
+                AddProjectDialog addProjectDialog = new AddProjectDialog();
+                addProjectDialog.show(getChildFragmentManager(), "MyFragment");
             }
         });
 

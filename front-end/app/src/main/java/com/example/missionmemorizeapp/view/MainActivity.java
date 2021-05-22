@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.missionmemorizeapp.R;
+import com.example.missionmemorizeapp.view.dialogs.AddFolderDialog;
+import com.example.missionmemorizeapp.view.dialogs.ProfileInfoDialog;
 import com.example.missionmemorizeapp.view.signinupviews.HomeSignInUpFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,5 +27,18 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.profile:
+                ProfileInfoDialog profileInfoDialog = new ProfileInfoDialog();
+                profileInfoDialog.show(getSupportFragmentManager(), "MyFragment");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
