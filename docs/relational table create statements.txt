@@ -26,7 +26,7 @@ CREATE TABLE "Project" (
 	"corrects"	INTEGER,
 	PRIMARY KEY("project_id" AUTOINCREMENT),
 	FOREIGN KEY("user_id") REFERENCES "User"("user_id") ON DELETE CASCADE,
-	FOREIGN KEY("folder_id") REFERENCES "Folder"("folder_id") ON DELETE SET NULL
+	FOREIGN KEY("folder_id") REFERENCES "Folder"("folder_id") ON DELETE CASCADE
 );
 
 CREATE TABLE "ProjectVerse" (
