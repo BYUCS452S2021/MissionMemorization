@@ -16,4 +16,8 @@ public class Verse {
     public String formatReference() {
         return book + " " + chapterNum + ":" + verseNum;
     }
+
+    public String getText() {
+        return text;
+    }
 }

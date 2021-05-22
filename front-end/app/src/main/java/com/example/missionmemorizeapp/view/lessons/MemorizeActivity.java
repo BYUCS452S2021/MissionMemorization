@@ -8,9 +8,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.missionmemorizeapp.R;
+import com.example.missionmemorizeapp.model.Project;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MemorizeActivity extends AppCompatActivity {
     public static final String PROJECT_ID = "com.example.missionmemorizeapp.PROJECT_ID";
+
+    final int[] ORDER = {1, 5, 3, 7, 10, 2, 8, 6, 4, 9};
 
     private TextView referenceTitle;
     private TextView referenceBody;
@@ -19,6 +25,14 @@ public class MemorizeActivity extends AppCompatActivity {
     private Button correctButton;
     private Button incorrectButton;
 
+    private Project project;
+
+    private List<Pair> pairs = new ArrayList<>();
+
+    MemorizeActivity(Project project) {
+        this.project = project;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,51 +40,49 @@ public class MemorizeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_memorize);
 
         referenceTitle = findViewById(R.id.reference);
-        referenceBody = findViewById(R.id.verseBody);
+        referenceTitle.setText(project.getProjectName());
+
         seekBar = findViewById(R.id.seekbar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                String hello = "hello";
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        referenceBody = findViewById(R.id.verseBody);
+
         seekDifficulty = findViewById(R.id.difficultyText);
         correctButton = findViewById(R.id.correctButton);
         incorrectButton = findViewById(R.id.incorrectButton);
 
-        //  TODO: HOW I SET UP PASSING INTO ACTIVITY
-        String projectID = getIntent().getStringExtra(PROJECT_ID);
 
-        // TODO: Get body and ref data
-
-        // TODO: Set values to data
-
-        // TODO: Set up seek Bar
-
-        // TODO: Set up algo to get rid of words
-
-        //TODO: add a toggle
-            /*
-            Use getWordCount
-
-            HAVE A toggle that toggles showing whole word or first letter
-
-            %'s of wording:
-            0 = show
-            1 = Hide 10%
-            2 = Hide 20%
-            3 =
-            4 =
-            5 =
-            6 =
-            7 =
-            8 = Hide 70%
-            9 = Hide 80% - only show first letter for rest
-            10 = Hide 100%
-
-             */
     }
 
-    public static int getWordCount(String verse) {
-        if (verse == null || verse.isEmpty()) {
-            return 0;
+    class Pair {
+        public int tag;
+        public String word;
+
+        Pair(int tag, String word) {
+            this.tag = tag;
+            this.word = word;
         }
-        String[] words = verse.split("\\s+");
-        return words.length;
     }
 
+    private void tagWords() {
+        String[] words = project.getProjectVerseString().split("\\s+");
+        for (int i = 0; i < words.length; i++) {
+            pairs.add(new Pair(ORDER[i % ORDER.length], words[i]));
+        }
+    }
 }

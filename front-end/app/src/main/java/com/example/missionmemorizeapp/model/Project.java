@@ -33,6 +33,14 @@ public class Project {
         return name.toString();
     }
 
+    public String getProjectVerseString() {
+        StringBuilder body = new StringBuilder();
+        for (Verse verse : versesInProject) {
+            body.append(verse.getText());
+        }
+        return body.toString();
+    }
+
     public int getNumAttempts() {
         return numAttempts;
     }

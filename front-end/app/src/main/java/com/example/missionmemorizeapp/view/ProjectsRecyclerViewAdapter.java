@@ -1,7 +1,6 @@
 package com.example.missionmemorizeapp.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.Project;
 import com.example.missionmemorizeapp.view.dialogs.ProjectInfoDialog;
-import com.example.missionmemorizeapp.view.lessons.MemorizeActivity;
+import com.example.missionmemorizeapp.view.lessons.MemorizeFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectsRecyclerViewAdapter extends RecyclerView.Adapter<ProjectsRecyclerViewAdapter.ProjectHolder> {
@@ -75,8 +73,8 @@ public class ProjectsRecyclerViewAdapter extends RecyclerView.Adapter<ProjectsRe
             projectRowLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent myIntent = new Intent(context, MemorizeActivity.class);
-                    activity.startActivity(myIntent);
+                    activity.getSupportFragmentManager().beginTransaction().replace
+                            (R.id.flFragmentMain, new MemorizeFragment(project)).commit();
                 }
             });
             projectRowLayout.setOnLongClickListener(new View.OnLongClickListener() {
