@@ -31,7 +31,7 @@ public class SignUpTask extends AsyncTask<SignupRequest, Void, SignupResponse> {
             response = presenter.signUpUser(signupRequests[0]);
         }
         catch (Exception e) {
-            response = new SignupResponse(false, "signup failed");
+            response = new SignupResponse(null, "signup failed");
         }
         finally {
             return response;

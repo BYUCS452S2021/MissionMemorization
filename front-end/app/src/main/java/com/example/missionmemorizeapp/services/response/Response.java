@@ -2,20 +2,10 @@ package com.example.missionmemorizeapp.services.response;
 
 class Response {
 
-    public  final boolean success;
     public  final String message;
 
-    Response(boolean success) {
-        this(success, null);
-    }
-
-    Response(boolean success, String message) {
-        this.success = success;
+    Response(String message) {
         this.message = message;
-    }
-
-    public boolean isSuccess() {
-        return success;
     }
 
     public String getMessage() {

@@ -5,9 +5,10 @@ import java.util.List;
 
 public class Project {
 
-    private boolean completed;
-    private int numAttempts;
-    private int numCorrect;
+    public int project_id;
+    public boolean completed;
+    public int numAttempts;
+    public int numCorrect;
 
     private List<Verse> versesInProject = new ArrayList<>();
 

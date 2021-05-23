@@ -5,8 +5,9 @@ import java.util.List;
 
 public class Folder {
 
-    private String folderName;
-    private List<Project> projectsInFolder = new ArrayList<>();
+    public int folder_id;
+    public String folderName;
+    public List<Project> projectsInFolder = new ArrayList<>();
 
     public void setFolderName(String folderName) {
         this.folderName = folderName;

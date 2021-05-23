@@ -1,37 +1,23 @@
 package com.example.missionmemorizeapp.services.response;
 
+import com.example.missionmemorizeapp.model.User;
+
 public class SignupResponse extends Response{
 
-    String username;
-    String email;
-    String firstName;
-    String lastName;
+    User user;
+    String message;
 
-    SignupResponse(boolean success, String username, String email, String firstName, String lastName) {
-        super(success);
-        this.username = username;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public SignupResponse(User user, String message) {
+        super(message);
+        this.user = user;
     }
 
-    public SignupResponse(boolean success, String message) {
-        super(success, message);
+    public User getUser() {
+        return user;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

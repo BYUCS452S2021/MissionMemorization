@@ -83,7 +83,8 @@ public class MemorizeFragment extends Fragment {
         correctButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                //TODO UpdateProjectTask
+                // set bundle and bring up ResultsDialog
             }
         });
 
@@ -91,7 +92,8 @@ public class MemorizeFragment extends Fragment {
         incorrectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                //TODO UpdateProjectTask
+                // set bundle and bring up ResultsDialog
             }
         });
 

@@ -26,4 +26,6 @@
     <string name="input_references">List References</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="try_again">Try Again</string>
+    <string name="back_to_home">Back to Home</string>
 </resources>

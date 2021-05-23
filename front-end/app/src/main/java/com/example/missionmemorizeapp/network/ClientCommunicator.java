@@ -49,6 +49,44 @@ class ClientCommunicator {
         return doRequest(urlPath, headers, returnType, requestStrategy);
     }
 
+    <T> T doPut(String urlPath, final Object requestInfo, Map<String, String> headers, Class<T> returnType) throws IOException {
+        RequestStrategy requestStrategy = new RequestStrategy() {
+            @Override
+            public void setRequestMethod(HttpURLConnection connection) throws IOException {
+                connection.setRequestMethod("PUT");
+            }
+
+            @Override
+            public void sendRequest(HttpURLConnection connection) throws IOException {
+                connection.setDoOutput(true);
+
+                String entityBody = Serializer.serialize(requestInfo);
+                try (DataOutputStream os = new DataOutputStream(connection.getOutputStream())) {
+                    os.writeBytes(entityBody);
+                    os.flush();
+                }
+            }
+        };
+
+        return doRequest(urlPath, headers, returnType, requestStrategy);
+    }
+
+    <T> T doDelete(String urlPath, Map<String, String> headers, Class<T> returnType) throws IOException {
+        RequestStrategy requestStrategy = new RequestStrategy() {
+            @Override
+            public void setRequestMethod(HttpURLConnection connection) throws IOException {
+                connection.setRequestMethod("DELETE");
+            }
+
+            @Override
+            public void sendRequest(HttpURLConnection connection) throws IOException {
+                // nothing to write here
+            }
+        };
+
+        return doRequest(urlPath, headers, returnType, requestStrategy);
+    }
+
     <T> T doGet(String urlPath, Map<String, String> headers, Class<T> returnType) throws IOException {
         RequestStrategy requestStrategy = new RequestStrategy() {
             @Override

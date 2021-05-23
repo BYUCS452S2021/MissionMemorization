@@ -9,7 +9,7 @@ import java.io.IOException;
 public class SignUpService {
 
     public ServerFacade serverFacade;
-    private static final String URL_PATH = "/signup";
+    private static final String URL_PATH = "/api/user/register";
 
     public SignUpService() {
         serverFacade = new ServerFacade();

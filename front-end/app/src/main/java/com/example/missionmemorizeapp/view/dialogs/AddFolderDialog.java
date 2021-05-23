@@ -32,7 +32,7 @@ public class AddFolderDialog extends DialogFragment {
                 .setView(input)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
+                        //TODO NewProjectTask
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

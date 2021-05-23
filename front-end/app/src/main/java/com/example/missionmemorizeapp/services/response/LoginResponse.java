@@ -1,37 +1,33 @@
 package com.example.missionmemorizeapp.services.response;
 
+import com.example.missionmemorizeapp.model.Folder;
+import com.example.missionmemorizeapp.model.Project;
+import com.example.missionmemorizeapp.model.User;
+
+import java.util.List;
+
 public class LoginResponse extends Response {
 
-    String username;
-    String email;
-    String firstName;
-    String lastName;
+    User user;
+    List<Folder> folders;
+    List<Project> projects;
 
-    LoginResponse(boolean success, String username, String email, String firstName, String lastName) {
-        super(success);
-        this.username = username;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public LoginResponse(String message, User user, List<Folder> folders, List<Project> projects) {
+        super(message);
+        this.user = user;
+        this.folders = folders;
+        this.projects = projects;
     }
 
-    public LoginResponse(boolean success, String message) {
-        super(success, message);
+    public User getUser() {
+        return user;
     }
 
-    public String getUsername() {
-        return username;
+    public List<Folder> getFolders() {
+        return folders;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public List<Project> getProjects() {
+        return projects;
     }
 }

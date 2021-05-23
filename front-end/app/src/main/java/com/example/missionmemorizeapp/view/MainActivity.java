@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 ProfileInfoDialog profileInfoDialog = new ProfileInfoDialog();
                 profileInfoDialog.show(getSupportFragmentManager(), "MyFragment");
                 return true;
+            case R.id.logout:
+                //TODO LogoutTask
             default:
                 return super.onOptionsItemSelected(item);
         }

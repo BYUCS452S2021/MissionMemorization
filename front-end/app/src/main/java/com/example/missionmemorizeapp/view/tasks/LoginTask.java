@@ -27,7 +27,7 @@ public class LoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
             response = presenter.loginUser(loginRequests[0]);
         }
         catch (Exception e) {
-            response = new LoginResponse(false, "login failed");
+            response = new LoginResponse("login failed", null, null, null);
         }
         finally {
             return response;

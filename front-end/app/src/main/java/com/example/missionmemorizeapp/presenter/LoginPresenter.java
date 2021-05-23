@@ -32,7 +32,7 @@ public class LoginPresenter {
         LoginResponse response = loginService.loginUser(request);
         CurrentSessionHolder.getInstance().setSignedInUser(
                 new User("Test", "User", "test@gmail.com", "test17"));
-        Verse newVerse = new Verse("3 Nephi", 21, 17, "And when he had said these words, he wept, and the multitude bare record of it, and he took their little children, one by one, and blessed them, and prayed unto the Father for them.");
+        Verse newVerse = new Verse(343, "3 Nephi", 455, 21, 17, "And when he had said these words, he wept, and the multitude bare record of it, and he took their little children, one by one, and blessed them, and prayed unto the Father for them.");
         Project newProject = new Project();
         newProject.getVersesInProject().add(newVerse);
         newProject.setNumAttempts(5);
