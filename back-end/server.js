@@ -51,10 +51,10 @@ const verses = require("./verses.js");
 app.use("/api/verses", verses.routes);
 
 const folders = require("./folders.js");
-app.use("/api/folders", foldersprojects.routes);
+app.use("/api/folders", folders.routes);
 
 const projects = require("./projects.js");
-app.use("/api/projects", foldersprojects.routes);
+app.use("/api/projects", projects.routes);
 
 
 app.listen(3001, () => console.log('Server listening on port 3001!'));

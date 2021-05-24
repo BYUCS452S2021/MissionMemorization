@@ -1,7 +1,7 @@
 const express = require("express");
 // const mongoose = require('mongoose');
 const argon2 = require("argon2");
-const { query } = require("express");
+// const { query } = require("express");
 const sqlite3 = require('sqlite3').verbose();
 
 const router = express.Router();
@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 
-const DB_FILE_PATH = '../MissionMemorize/MissionMemorizeRelational.db'
+const DB_FILE_PATH = '../MissionMemorizeRelational.db'
 
 // This is a method that we can call on User objects to compare the hash of the
 // password the browser sends with the has of the user's true password stored in
@@ -34,11 +34,12 @@ const DB_FILE_PATH = '../MissionMemorize/MissionMemorizeRelational.db'
 // object to JSON. It deletes the password hash from the object. This ensures
 // that we never send password hashes over our API, to avoid giving away
 // anything to an attacker.
-userSchema.methods.toJSON = function() {
-  var obj = this.toObject();
-  delete obj.password;
-  return obj;
-}
+
+// userSchema.methods.toJSON = function() {
+//   var obj = this.toObject();
+//   delete obj.password;
+//   return obj;
+// }
 
 /* Middleware */
 
@@ -50,7 +51,7 @@ const validUser = async (req, res, next) => {
     });
   try {
     
-    let db = new sqlite3.Database('../MissionMemorizeRelational.db')
+    let db = new sqlite3.Database(DB_FILE_PATH)
 // TODO: Make sure this is right
     let query = "SELECT COUNT(user_id) AS count FROM User" +
             "WHERE user_id = ?";
@@ -128,7 +129,7 @@ router.post('/register', async (req, res) => {
     let query = "SELECT COUNT(username) AS usercount, COUNT(email) AS emailcount FROM User" +
             "WHERE username = '?' OR email = '?'";
     
-    let db = new sqlite3.Database('../MissionMemorizeRelational.db')
+    let db = new sqlite3.Database(DB_FILE_PATH)
     // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
     let quality_check = db.get(query, [req.body.username, req.body.email], (err, row) => {
       if (err) {
@@ -161,7 +162,7 @@ router.post('/register', async (req, res) => {
         query = "INSERT INTO User (username, password, email, first_name, last_name)" +
                 "VALUES(?, ?, ?, ?, ?);"
 
-        db = new sqlite3.Database('../MissionMemorizeRelational.db')
+        db = new sqlite3.Database(DB_FILE_PATH)
 
         let newUser = db.run(query, [req.body.username, hashedPass, req.body.email, req.body.first_name, req.body.last_name], function(err) {
           if (err) {
@@ -223,6 +224,22 @@ router.post('/login', async (req, res) => {
     
     let query = "SELECT * FROM User" +
                 "WHERE username = ?";
+
+
+    db = new sqlite3.Database(DB_FILE_PATH)
+
+    let user = db.get(query, [req.body.username], function(err) {
+      if (err) {
+        return console.error(err.message);
+      }
+        console.log('${req.body.username} was found');
+    });
+
+    db.close();
+
+    // if (user != null)
+
+
     
 // TODO:  lookup user record - should only get one (use username)
     //      If exists, store data
@@ -235,14 +252,14 @@ router.post('/login', async (req, res) => {
     //     message: "username or password is wrong"
     //   });
 
-    let isMatch = false
+    const isMatch = false
     try {
         // note that we supply the hash stored in the database (first argument) and
         // the plaintext password. argon2 will do the hashing and salting and
         // comparison for us.
 
   // CHECK - COuld cause problems
-        const isMatch = await argon2.verify(req.body.password, password);
+        isMatch = await argon2.verify(req.body.password, password);
         isMatch = true;
     } catch (error) {
         isMatch = false;
