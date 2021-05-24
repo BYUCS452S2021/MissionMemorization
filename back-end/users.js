@@ -124,109 +124,140 @@ router.post('/register', async (req, res) => {
     });
 
   try {
+    let pass = req.body.password;
+
+    // generate a hash. argon2 does the salting and hashing for us
+    pass = await argon2.hash(pass);
 
 // TODO check if user or email exists!!!!
-    let query = "SELECT COUNT(username) AS usercount FROM User WHERE username = ?";
-    // let query = "SELECT username FROM User WHERE username = ?";
 
-    // let query = "SELECT COUNT(username) AS usercount, COUNT(email) AS emailcount FROM User" +
-    //         "WHERE username = '?' OR email = '?'";
-    
+    let query = "SELECT COUNT(username) AS usercount FROM User WHERE username = ? or email = ?";    
+
     let db = new sqlite3.Database(DB_FILE_PATH)
     // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
-    let username_check = db.get(query, [req.body.username], (err, row) => {
+    let username_check = await db.get(query, [req.body.username, req.body.email], (err, row) => {
       if (err) {
-        return console.error("user check failed" + err.message);
+        return console.error("user/email check failed" + err.message);
       }
-      // if (row.usercount > )
-      return row.usercount
-        ? console.log(row.usercount)
-        : console.log(`No users found`);
-    });
 
-    if (username_check > 0) {
-      return res.status(403).send({
-        message: "username already exists"
-      });
-    }
-
-    db.close();
-
-    db = new sqlite3.Database(DB_FILE_PATH)
-
-    query = "SELECT COUNT(email) AS emailcount FROM User WHERE email = ?";
-
-    let email_check = db.get(query, [req.body.email], (err, row) => {
-      if (err) {
-        return console.error("email check failed" + err.message);
-      }
-      return row
-        ? console.log(row.emailcount)
-        : console.log(`No users found`);
-    });
-
-    db.close();
-
-     if (email_check.emailcount > 0) {
-      return res.status(403).send({
-        message: "email already exists"
-      });
-    }
-
-    let newUser = null
-    // Try hashing the password 
-    try {
-        let pass = req.body.password;
-
-        // generate a hash. argon2 does the salting and hashing for us
-        pass = await argon2.hash(pass);
-        // override the plaintext password with the hashed one
-        
-        query = "INSERT INTO User (username, password, email, first_name, last_name)" +
-                "VALUES(?, ?, ?, ?, ?);"
-
-        db = new sqlite3.Database(DB_FILE_PATH)
-
-        newUser = db.run(query, [req.body.username, pass, req.body.email, req.body.first_name, req.body.last_name], function(err) {
-          if (err) {
-            return console.error(err.message);
-          }
-           console.log('${req.body.username} was added as a user');
+      if (row.usercount > 0) {
+        return res.status(403).send({
+          message: "username or email already exist"
         });
-
-        db.close();
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
-
-
-    // set user session info
-    req.session.userID = newUser.user_id;
-
-
-//   *******************************  TODO:  Add Function Calls to folder and project
-//  CAN probably assume have no projects/folders
-
-
-    let retUser = {
-      user_id: newUser.user_id,
-      username: req.body.username,
-      email: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName
-    };
-
-    // send back a 200 OK response, along with the user that was created
-    return res.send({
-        user: retUser,
+      } else {
+        console.log(row.usercount)
         
+        let newUser = null
+        try {
+            
+            // override the plaintext password with the hashed one
+            
+            query = "INSERT INTO User (username, password, email, first_name, last_name)" +
+                    "VALUES(?, ?, ?, ?, ?);"
 
-// TODO:  Add returns for project and folder
+            db = new sqlite3.Database(DB_FILE_PATH)
+
+            newUser = db.run(query, [req.body.username, pass, req.body.email, req.body.first_name, req.body.last_name], function(err) {
+              if (err) {
+                return console.error(err.message);
+              }
+              console.log('${req.body.username} was added as a user');
+
+              // set user session info
+              req.session.userID = newUser.user_id;
+
+              let retUser = {
+                user_id: newUser.user_id,
+                username: req.body.username,
+                email: req.body.email,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName
+              };
+          
+              // send back a 200 OK response, along with the user that was created
+              return res.send({
+                user: retUser,
+                  
+          
+    // TODO:  Add returns for project and folder
+          
+    //   *******************************  TODO:  Add Function Calls to folder and project
+          
+              });
+            });
+            db.close();
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
 
 
+      }
 
+      // return row
+      //   ? console.log(row.usercount)
+      //   : console.log(`No users found`);
     });
+
+    // if (username_check > 0) {
+    //   return res.status(403).send({
+    //     message: "username already exists"
+    //   });
+    // }
+
+    db.close();
+
+
+    // let query = "SELECT COUNT(username) AS usercount FROM User WHERE username = ?";
+
+
+    // // let query = "SELECT username FROM User WHERE username = ?";
+
+    // // let query = "SELECT COUNT(username) AS usercount, COUNT(email) AS emailcount FROM User" +
+    // //         "WHERE username = '?' OR email = '?'";
+    
+    // let db = new sqlite3.Database(DB_FILE_PATH)
+    // // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
+    // let username_check = await db.get(query, [req.body.username], (err, row) => {
+    //   if (err) {
+    //     return console.error("user check failed" + err.message);
+    //   }
+    //   // if (row.usercount > )
+    //   return row.usercount
+    //     ? console.log(row.usercount)
+    //     : console.log(`No users found`);
+    // });
+
+    // if (username_check > 0) {
+    //   return res.status(403).send({
+    //     message: "username already exists"
+    //   });
+    // }
+
+    // db.close();
+
+    // db = new sqlite3.Database(DB_FILE_PATH)
+
+    // query = "SELECT COUNT(email) AS emailcount FROM User WHERE email = ?";
+
+    // let email_check = db.get(query, [req.body.email], (err, row) => {
+    //   if (err) {
+    //     return console.error("email check failed" + err.message);
+    //   }
+    //   return row
+    //     ? console.log(row.emailcount)
+    //     : console.log(`No users found`);
+    // });
+
+    // db.close();
+
+    //  if (email_check.emailcount > 0) {
+    //   return res.status(403).send({
+    //     message: "email already exists"
+    //   });
+    // }
+
+        
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
@@ -315,7 +346,13 @@ router.post('/login', async (req, res) => {
     
     
     
-        
+    let retUser = {
+      user_id: newUser.user_id,
+      username: user.username,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName
+    };
             
 
 
@@ -323,12 +360,7 @@ router.post('/login', async (req, res) => {
     req.session.userID = user._id;
     // send back a 200 OK response, along with the user that was created
     return res.send({
-      user: {
-        username: req.body.username,
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
-      }
+      user: retUser
       
 
 // TODO:  Add returns for project and folder
