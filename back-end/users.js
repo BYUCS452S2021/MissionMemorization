@@ -163,15 +163,26 @@ router.post('/register', async (req, res) => {
               }
               console.log('${req.body.username} was added as a user');
 
+              query = "SELECT user_id FROM User WHERE username = ?";
+
+              let db = new sqlite3.Database(DB_FILE_PATH)
+              // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
+              let user_id = db.get(query, [req.body.username], (err, row) => {
+                if (err) {
+                  return console.error("issue retrieving user_id" + err.message);
+                }
+                req.session.userID = row.user_id;
+                return row.user_id
+              });
+
               // set user session info
-              req.session.userID = newUser.user_id;
 
               let retUser = {
-                user_id: newUser.user_id,
+                user_id: user_id,
                 username: req.body.username,
                 email: req.body.email,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName
+                firstName: req.body.first_name,
+                lastName: req.body.last_name
               };
           
               // send back a 200 OK response, along with the user that was created
@@ -185,7 +196,8 @@ router.post('/register', async (req, res) => {
           
               });
             });
-            db.close();
+          db.close();
+
         } catch (error) {
             console.log(error);
             next(error);
@@ -193,70 +205,8 @@ router.post('/register', async (req, res) => {
 
 
       }
-
-      // return row
-      //   ? console.log(row.usercount)
-      //   : console.log(`No users found`);
     });
-
-    // if (username_check > 0) {
-    //   return res.status(403).send({
-    //     message: "username already exists"
-    //   });
-    // }
-
     db.close();
-
-
-    // let query = "SELECT COUNT(username) AS usercount FROM User WHERE username = ?";
-
-
-    // // let query = "SELECT username FROM User WHERE username = ?";
-
-    // // let query = "SELECT COUNT(username) AS usercount, COUNT(email) AS emailcount FROM User" +
-    // //         "WHERE username = '?' OR email = '?'";
-    
-    // let db = new sqlite3.Database(DB_FILE_PATH)
-    // // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
-    // let username_check = await db.get(query, [req.body.username], (err, row) => {
-    //   if (err) {
-    //     return console.error("user check failed" + err.message);
-    //   }
-    //   // if (row.usercount > )
-    //   return row.usercount
-    //     ? console.log(row.usercount)
-    //     : console.log(`No users found`);
-    // });
-
-    // if (username_check > 0) {
-    //   return res.status(403).send({
-    //     message: "username already exists"
-    //   });
-    // }
-
-    // db.close();
-
-    // db = new sqlite3.Database(DB_FILE_PATH)
-
-    // query = "SELECT COUNT(email) AS emailcount FROM User WHERE email = ?";
-
-    // let email_check = db.get(query, [req.body.email], (err, row) => {
-    //   if (err) {
-    //     return console.error("email check failed" + err.message);
-    //   }
-    //   return row
-    //     ? console.log(row.emailcount)
-    //     : console.log(`No users found`);
-    // });
-
-    // db.close();
-
-    //  if (email_check.emailcount > 0) {
-    //   return res.status(403).send({
-    //     message: "email already exists"
-    //   });
-    // }
-
         
   } catch (error) {
     console.log(error);
@@ -276,29 +226,24 @@ router.post('/login', async (req, res) => {
     return res.sendStatus(400);
 
   try {
-    
+    let queryrecieved = false;
     let query = "SELECT * FROM User" +
                 "WHERE username = ?";
 
-
     db = new sqlite3.Database(DB_FILE_PATH)
-
-    let user = db.get(query, [req.body.username], function(err) {
+    let pass = db.get(query, [req.body.username], function(err, row) {
       if (err) {
         return console.error(err.message);
       }
         console.log('${req.body.username} was found');
+        if (row != null) {
+          queryrecieved = true;
+          return row.password;
+        }
+
     });
 
     db.close();
-
-    // if (user != null)
-
-
-    
-// TODO:  lookup user record - should only get one (use username)
-    //      If exists, store data
-
 
 // TODO: If not found or too many found
     // Return an error if user does not exist.
@@ -306,6 +251,20 @@ router.post('/login', async (req, res) => {
     //   return res.status(403).send({
     //     message: "username or password is wrong"
     //   });
+    let timeoutduration = 0;
+    while (!queryrecieved && timeoutduration < 5) {
+      setTimeout(function(){ console.log("Waited")} , 1000);
+      ++timeoutduration;
+    }
+
+
+
+
+//  TODO:  Need this to run after results recieved in the SQL statement - but cant have an await inside non async
+
+
+
+
 
     const isMatch = false
     try {
@@ -314,16 +273,11 @@ router.post('/login', async (req, res) => {
         // comparison for us.
 
   // CHECK - COuld cause problems
-        isMatch = await argon2.verify(req.body.password, password);
+        isMatch = await argon2.verify(req.body.password, pass);
         isMatch = true;
     } catch (error) {
         isMatch = false;
     }
-
-
-
-
-
 
 
 
