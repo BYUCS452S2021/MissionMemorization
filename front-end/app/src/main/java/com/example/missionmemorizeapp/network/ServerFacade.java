@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class ServerFacade {
 
-    private static final String SERVER_URL = "http://localhost:3001";
+    private static final String SERVER_URL = "http://10.0.2.2:3001";
 
     public LoginResponse loginUser(LoginRequest request, String urlPath) throws IOException {
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);

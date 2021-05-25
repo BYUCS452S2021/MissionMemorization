@@ -31,7 +31,7 @@ public class LoginPresenter {
         LoginService loginService = new LoginService();
         LoginResponse response = loginService.loginUser(request);
         /*CurrentSessionHolder.getInstance().setSignedInUser(
-                new User("Test", "User", "test@gmail.com", "test17"));
+                new User("Test", "User", "test@gmail.com", "test17"));*/
         Verse newVerse = new Verse(343, "3 Nephi", 455, 21, 17, "And when he had said these words, he wept, and the multitude bare record of it, and he took their little children, one by one, and blessed them, and prayed unto the Father for them.");
         Project newProject = new Project();
         newProject.getVersesInProject().add(newVerse);
@@ -41,10 +41,10 @@ public class LoginPresenter {
         newFolder.setFolderName("Mission Verses");
         newFolder.getProjectsInFolder().add(newProject);
         CurrentSessionHolder.getInstance().getRootProjectsOfUser().add(newProject);
-        CurrentSessionHolder.getInstance().getFoldersOfUser().add(newFolder);*/
+        CurrentSessionHolder.getInstance().getFoldersOfUser().add(newFolder);
         CurrentSessionHolder.getInstance().setSignedInUser(response.getUser());
-        CurrentSessionHolder.getInstance().setFoldersOfUser(response.getFolders());
-        CurrentSessionHolder.getInstance().setRootProjectsOfUser(response.getProjects());
+        /*CurrentSessionHolder.getInstance().setFoldersOfUser(response.getFolders());
+        CurrentSessionHolder.getInstance().setRootProjectsOfUser(response.getProjects());*/
 
         return response;
     }

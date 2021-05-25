@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.presenter.LoginPresenter;
@@ -63,8 +64,8 @@ public class SignUpFragment extends Fragment implements SignUpTask.SignUpResultO
             @Override
             public void onClick(View v) {
                 SignUpTask task = new SignUpTask(presenter, SignUpFragment.this);
-                SignupRequest request = new SignupRequest(userName.toString(), password.toString(),
-                        firstName.toString(), lastName.toString(), email.toString());
+                SignupRequest request = new SignupRequest(userName.getText().toString(), password.getText().toString(),
+                        firstName.getText().toString(), lastName.getText().toString(), email.getText().toString());
                 task.execute(request);
             }
         });
@@ -75,6 +76,9 @@ public class SignUpFragment extends Fragment implements SignUpTask.SignUpResultO
 
     @Override
     public void onSignInResult(SignupResponse response) {
-        listener.swapToMainActivity();
+        if (response.getMessage() == null)
+            listener.swapToMainActivity();
+        else
+            Toast.makeText(getContext(), "signup failed" , Toast.LENGTH_SHORT).show();
     }
 }

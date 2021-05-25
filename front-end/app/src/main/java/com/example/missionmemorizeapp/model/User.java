@@ -6,29 +6,30 @@ import java.util.List;
 
 public class User {
 
-    public int user_id;
-    public String first_name;
-    public String last_name;
+    //TODO change this back to int as it should be
+    public User user_id;
+    public String firstName;
+    public String lastName;
     public String email;
     public String username;
 
     public User(String first_name, String last_name, String email, String username) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = first_name;
+        this.lastName = last_name;
         this.email = email;
         this.username = username;
     }
 
-    public int getUser_id() {
+    public User getUser_id() {
         return user_id;
     }
 
     public String getFirstName() {
-        return first_name;
+        return firstName;
     }
 
     public String getLastName() {
-        return last_name;
+        return lastName;
     }
 
     public String getEmail() {

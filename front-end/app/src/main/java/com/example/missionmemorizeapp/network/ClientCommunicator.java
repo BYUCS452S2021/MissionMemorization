@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.example.missionmemorizeapp.network.Serializer;
@@ -58,7 +59,7 @@ class ClientCommunicator {
 
             @Override
             public void sendRequest(HttpURLConnection connection) throws IOException {
-                connection.setDoOutput(true);
+                //connection.setDoOutput(true);
 
                 String entityBody = Serializer.serialize(requestInfo);
                 try (DataOutputStream os = new DataOutputStream(connection.getOutputStream())) {
@@ -104,6 +105,9 @@ class ClientCommunicator {
     }
 
     private <T> T doRequest(String urlPath, Map<String, String> headers, Class<T> returnType, RequestStrategy requestStrategy) throws IOException {
+
+        headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
 
         HttpURLConnection connection = null;
 
