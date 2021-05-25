@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 // const mongoose = require('mongoose');
 const sqlite3 = require('sqlite3').verbose();
 
-const DB_FILE_PATH = '../MissionMemorizeRelational.db'
+const DB_FILE_PATH = '../MissionMemorizeRelational.db';
 
 // setup express
 const app = express();
@@ -22,12 +22,12 @@ app.use(bodyParser.urlencoded({
 //   email: String
 
 
-let db = new sqlite3.Database(DB_FILE_PATH, (err) => {
-    if (err) {
-        console.error(err.message);
-    }
-    console.log('Connected to the Mission Memorize database.');
-});
+// let db = new sqlite3.Database(DB_FILE_PATH, (err) => {
+//     if (err) {
+//         console.error(err.message);
+//     }
+//     console.log('Connected to the Mission Memorize database.');
+// });
 
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
@@ -47,14 +47,15 @@ app.use(cookieSession({
 const users = require("./users.js");
 app.use("/api/user", users.routes);
 
+//Import modules for verses, folders, and projects
 const verses = require("./verses.js");
-app.use("/api/verses", verses.routes);
+app.use("/api/verse", verses.routes);
 
 const folders = require("./folders.js");
-app.use("/api/folders", folders.routes);
+app.use("/api/folder", folders.routes);
 
 const projects = require("./projects.js");
-app.use("/api/projects", projects.routes);
+app.use("/api/project", projects.routes);
 
 
 app.listen(3001, () => console.log('Server listening on port 3001!'));

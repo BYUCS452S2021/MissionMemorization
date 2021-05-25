@@ -1,16 +1,9 @@
 const express = require("express");
-// const mongoose = require('mongoose');
 const argon2 = require("argon2");
-// const { query } = require("express");
 const sqlite3 = require('sqlite3').verbose();
+const sqlite = require("aa-sqlite");
 
 const router = express.Router();
-
-
-// TODO:  Finish SQL Commands and connect/disconnect to the db on every call
-
-
-
 
 const DB_FILE_PATH = '../MissionMemorizeRelational.db'
 
@@ -124,85 +117,87 @@ router.post('/register', async (req, res) => {
     });
 
   try {
+    let pass = req.body.password;
+
+    // generate a hash. argon2 does the salting and hashing for us
+    pass = await argon2.hash(pass);
 
 // TODO check if user or email exists!!!!
-    let query = "SELECT COUNT(username) AS usercount, COUNT(email) AS emailcount FROM User" +
-            "WHERE username = '?' OR email = '?'";
-    
+
+    let query = "SELECT COUNT(username) AS usercount FROM User WHERE username = ? or email = ?";    
+
     let db = new sqlite3.Database(DB_FILE_PATH)
     // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
-    let quality_check = db.get(query, [req.body.username, req.body.email], (err, row) => {
+    let username_check = await db.get(query, [req.body.username, req.body.email], (err, row) => {
       if (err) {
-        return console.error(err.message);
+        return console.error("user/email check failed" + err.message);
       }
-      return row
-        ? console.log(row.usercount)
-        : console.log(`No user logged in right now`);
-    });
 
-    db.close();
-
-    if (quality_check.usercount > 0) {
-      return res.status(403).send({
-        message: "username already exists"
-      });
-    } else if (quality_check.usercount > 0) {
-      return res.status(403).send({
-        message: "email already exists"
-      });
-    }
-
-
-    // Try hashing the password 
-    try {
-        // generate a hash. argon2 does the salting and hashing for us
-        const hashedPass = await argon2.hash(this.req.body.password);
-        // override the plaintext password with the hashed one
-        
-        query = "INSERT INTO User (username, password, email, first_name, last_name)" +
-                "VALUES(?, ?, ?, ?, ?);"
-
-        db = new sqlite3.Database(DB_FILE_PATH)
-
-        let newUser = db.run(query, [req.body.username, hashedPass, req.body.email, req.body.first_name, req.body.last_name], function(err) {
-          if (err) {
-            return console.error(err.message);
-          }
-           console.log('${req.body.username} was added as a user');
+      if (row.usercount > 0) {
+        return res.status(403).send({
+          message: "username or email already exist"
         });
-
-        db.close();
-    } catch (error) {
-        console.log(error);
-        next(error);
-    }
-
-
-    // set user session info
-    req.session.userID = user._id;
-
-
-//   *******************************  TODO:  Add Function Calls to folder and project
-//  CAN probably assume have no projects/folders
-
-
-
-
-    // send back a 200 OK response, along with the user that was created
-    return res.send({
-        user: {
-          username: req.body.username,
-          email: req.body.email,
-          firstName: req.body.firstName,
-          lastName: req.body.lastName
-        }
+      } else {
+        console.log(row.usercount)
         
+        let newUser = null
+        try {
+            
+            // override the plaintext password with the hashed one
+            
+            query = "INSERT INTO User (username, password, email, first_name, last_name)" +
+                    "VALUES(?, ?, ?, ?, ?);"
 
-// TODO:  Add returns for project and folder
+            db = new sqlite3.Database(DB_FILE_PATH)
 
+            newUser = db.run(query, [req.body.username, pass, req.body.email, req.body.first_name, req.body.last_name], function(err) {
+              if (err) {
+                return console.error(err.message);
+              }
+              console.log('${req.body.username} was added as a user');
 
+              query = "SELECT user_id FROM User WHERE username = ?";
 
+              let db = new sqlite3.Database(DB_FILE_PATH)
+              // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
+              let user_id = db.get(query, [req.body.username], (err, row) => {
+                if (err) {
+                  return console.error("issue retrieving user_id" + err.message);
+                }
+                req.session.userID = row.user_id;
+                return row.user_id
+              });
+
+    //TODO: set user session info
+              let retUser = {
+                user_id: user_id,
+                username: req.body.username,
+                email: req.body.email,
+                firstName: req.body.first_name,
+                lastName: req.body.last_name
+              };
+          
+              // send back a 200 OK response, along with the user that was created
+              return res.send({
+                user: retUser,
+                  
+          
+    // TODO:  Add returns for project and folder
+          
+    //   *******************************  TODO:  Add Function Calls to folder and project
+          
+              });
+            });
+          db.close();
+
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+      }
     });
+    db.close();
+        
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
@@ -215,62 +210,26 @@ router.post('/register', async (req, res) => {
 
 // login a user
 router.post('/login', async (req, res) => {
-  // Make sure that the form coming from the browser includes a username and a
-  // password, otherwise return an error.
   if (!req.body.username || !req.body.password)
     return res.sendStatus(400);
 
   try {
     
-    let query = "SELECT * FROM User" +
-                "WHERE username = ?";
+
+    let query = "SELECT * FROM User WHERE username = ?";
+
+    await sqlite.open(DB_FILE_PATH);
+    result = await sqlite.get(query, [req.body.username])
+    sqlite.close();
 
 
-    db = new sqlite3.Database(DB_FILE_PATH)
-
-    let user = db.get(query, [req.body.username], function(err) {
-      if (err) {
-        return console.error(err.message);
-      }
-        console.log('${req.body.username} was found');
-    });
-
-    db.close();
-
-    // if (user != null)
-
-
-    
-// TODO:  lookup user record - should only get one (use username)
-    //      If exists, store data
-
-
-// TODO: If not found or too many found
-    // Return an error if user does not exist.
-    // if (!user)
-    //   return res.status(403).send({
-    //     message: "username or password is wrong"
-    //   });
-
-    const isMatch = false
+    let isMatch = false
     try {
-        // note that we supply the hash stored in the database (first argument) and
-        // the plaintext password. argon2 will do the hashing and salting and
-        // comparison for us.
-
-  // CHECK - COuld cause problems
-        isMatch = await argon2.verify(req.body.password, password);
+        isMatch = await argon2.verify(result.password, req.body.password);
         isMatch = true;
     } catch (error) {
         isMatch = false;
     }
-
-
-
-
-
-
-
 
     // Return the SAME error if the password is wrong. This ensure we don't
     // leak any information about which users exist.
@@ -281,35 +240,30 @@ router.post('/login', async (req, res) => {
 
 
 
-
-
     //   *******************************  TODO:  Add Function Calls to folder and project
     //  CAN probably assume have no projects/folders
     
-    query = "SELECT * FROM Projects" +
-    "WHERE user_id"
+    // query = "SELECT * FROM Projects" +
+    // "WHERE user_id"
     
-    
-    
-        
-            
-
+    let retUser = {
+      user_id: result.user_id,
+      username: user.username,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName
+    };  
 
     // set user session info
-    req.session.userID = user._id;
+    req.session.userID = result.user_id;
     // send back a 200 OK response, along with the user that was created
     return res.send({
-      user: {
-        username: req.body.username,
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
-      }
+      user: retUser
       
 
 // TODO:  Add returns for project and folder
 
-// TODO:  Return saved stuff but password and user_id
+// TODO:  Return saved stuff but password
 
 
     });
