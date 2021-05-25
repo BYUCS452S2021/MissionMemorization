@@ -1,16 +1,9 @@
 const express = require("express");
-// const mongoose = require('mongoose');
 const argon2 = require("argon2");
-// const { query } = require("express");
 const sqlite3 = require('sqlite3').verbose();
+const sqlite = require("aa-sqlite");
 
 const router = express.Router();
-
-
-// TODO:  Finish SQL Commands and connect/disconnect to the db on every call
-
-
-
 
 const DB_FILE_PATH = '../MissionMemorizeRelational.db'
 
@@ -175,8 +168,7 @@ router.post('/register', async (req, res) => {
                 return row.user_id
               });
 
-              // set user session info
-
+    //TODO: set user session info
               let retUser = {
                 user_id: user_id,
                 username: req.body.username,
@@ -202,8 +194,6 @@ router.post('/register', async (req, res) => {
             console.log(error);
             next(error);
         }
-
-
       }
     });
     db.close();
@@ -220,66 +210,26 @@ router.post('/register', async (req, res) => {
 
 // login a user
 router.post('/login', async (req, res) => {
-  // Make sure that the form coming from the browser includes a username and a
-  // password, otherwise return an error.
   if (!req.body.username || !req.body.password)
     return res.sendStatus(400);
 
   try {
-    let queryrecieved = false;
-    let query = "SELECT * FROM User" +
-                "WHERE username = ?";
+    
 
-    db = new sqlite3.Database(DB_FILE_PATH)
-    let pass = await Task.Run(() => db.get(query, [req.body.username], function(err, row) {
-      if (err) {
-        return console.error(err.message);
-      }
-        console.log('${req.body.username} was found');
-        if (row != null) {
-          queryrecieved = true;
-          return row.password;
-        }
+    let query = "SELECT * FROM User WHERE username = ?";
 
-    }));
-
-    db.close();
-
-// TODO: If not found or too many found
-    // Return an error if user does not exist.
-    // if (!user)
-    //   return res.status(403).send({
-    //     message: "username or password is wrong"
-    //   });
-    let timeoutduration = 0;
-    while (!queryrecieved && timeoutduration < 5) {
-      setTimeout(function(){ console.log("Waited")} , 1000);
-      ++timeoutduration;
-    }
+    await sqlite.open(DB_FILE_PATH);
+    result = await sqlite.get(query, [req.body.username])
+    sqlite.close();
 
 
-
-
-//  TODO:  Need this to run after results recieved in the SQL statement - but cant have an await inside non async
-
-
-
-
-
-    const isMatch = false
+    let isMatch = false
     try {
-        // note that we supply the hash stored in the database (first argument) and
-        // the plaintext password. argon2 will do the hashing and salting and
-        // comparison for us.
-
-  // CHECK - COuld cause problems
-        isMatch = await argon2.verify(req.body.password, pass);
+        isMatch = await argon2.verify(result.password, req.body.password);
         isMatch = true;
     } catch (error) {
         isMatch = false;
     }
-
-
 
     // Return the SAME error if the password is wrong. This ensure we don't
     // leak any information about which users exist.
@@ -290,28 +240,22 @@ router.post('/login', async (req, res) => {
 
 
 
-
-
     //   *******************************  TODO:  Add Function Calls to folder and project
     //  CAN probably assume have no projects/folders
     
-    query = "SELECT * FROM Projects" +
-    "WHERE user_id"
-    
-    
+    // query = "SELECT * FROM Projects" +
+    // "WHERE user_id"
     
     let retUser = {
-      user_id: newUser.user_id,
+      user_id: result.user_id,
       username: user.username,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName
-    };
-            
-
+    };  
 
     // set user session info
-    req.session.userID = user._id;
+    req.session.userID = result.user_id;
     // send back a 200 OK response, along with the user that was created
     return res.send({
       user: retUser
@@ -319,7 +263,7 @@ router.post('/login', async (req, res) => {
 
 // TODO:  Add returns for project and folder
 
-// TODO:  Return saved stuff but password and user_id
+// TODO:  Return saved stuff but password
 
 
     });
