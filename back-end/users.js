@@ -231,7 +231,7 @@ router.post('/login', async (req, res) => {
                 "WHERE username = ?";
 
     db = new sqlite3.Database(DB_FILE_PATH)
-    let pass = db.get(query, [req.body.username], function(err, row) {
+    let pass = await Task.Run(() => db.get(query, [req.body.username], function(err, row) {
       if (err) {
         return console.error(err.message);
       }
@@ -241,7 +241,7 @@ router.post('/login', async (req, res) => {
           return row.password;
         }
 
-    });
+    }));
 
     db.close();
 
