@@ -15,13 +15,16 @@ import android.widget.Button;
 
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.CurrentSessionHolder;
+import com.example.missionmemorizeapp.presenter.HomePresenter;
+import com.example.missionmemorizeapp.services.response.NewFolderResponse;
 import com.example.missionmemorizeapp.view.dialogs.AddFolderDialog;
 import com.example.missionmemorizeapp.view.dialogs.AddProjectDialog;
+import com.example.missionmemorizeapp.view.tasks.NewFolderTask;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObserver {
 
     RecyclerView projectsRecyclerView;
     LinearLayoutManager projectLayoutManager;
@@ -34,6 +37,10 @@ public class HomeFragment extends Fragment {
     FoldersRecyclerViewAdapter foldersRecyclerViewAdapter;
 
     Button addNewFolderButton;
+
+    HomePresenter presenter;
+
+    HomeFragment fragment = this;
 
 
     public HomeFragment() {
@@ -84,7 +91,7 @@ public class HomeFragment extends Fragment {
         addNewFolderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddFolderDialog addFolderDialog = new AddFolderDialog();
+                AddFolderDialog addFolderDialog = new AddFolderDialog(presenter, fragment);
                 addFolderDialog.show(getChildFragmentManager(), "MyFragment");
             }
         });
@@ -92,4 +99,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onNewFolderResult(NewFolderResponse response) {
+    }
 }

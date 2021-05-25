@@ -6,8 +6,7 @@ import java.util.List;
 
 public class User {
 
-    //TODO change this back to int as it should be
-    public User user_id;
+    public int user_id;
     public String firstName;
     public String lastName;
     public String email;
@@ -20,7 +19,7 @@ public class User {
         this.username = username;
     }
 
-    public User getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 
