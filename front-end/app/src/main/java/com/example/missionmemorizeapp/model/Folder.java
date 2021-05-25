@@ -13,6 +13,14 @@ public class Folder {
         this.folderName = folderName;
     }
 
+    public void setFolder_id(int folder_id) {
+        this.folder_id = folder_id;
+    }
+
+    public int getFolder_id() {
+        return folder_id;
+    }
+
     public String getFolderName() {
         return folderName;
     }
@@ -20,4 +28,6 @@ public class Folder {
     public List<Project> getProjectsInFolder() {
         return projectsInFolder;
     }
+
+
 }

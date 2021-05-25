@@ -2,17 +2,41 @@ package com.example.missionmemorizeapp.view.tasks;
 
 import android.os.AsyncTask;
 
+import com.example.missionmemorizeapp.presenter.HomePresenter;
 import com.example.missionmemorizeapp.services.request.GetVersesRequest;
+import com.example.missionmemorizeapp.services.response.DeleteProjectResponse;
 import com.example.missionmemorizeapp.services.response.GetVersesResponse;
 
 public class GetVersesTask extends AsyncTask<GetVersesRequest, Void, GetVersesResponse> {
-    @Override
-    protected GetVersesResponse doInBackground(GetVersesRequest... getVersesRequests) {
-        return null;
+
+    private final HomePresenter presenter;
+    private final GetVersesObserver observer;
+
+    public GetVersesTask(HomePresenter presenter, GetVersesObserver observer) {
+        this.presenter = presenter;
+        this.observer = observer;
+    }
+
+    public interface GetVersesObserver {
+        void onGetVerses(GetVersesResponse response);
     }
 
     @Override
-    protected void onPostExecute(GetVersesResponse loginResponse) {
-        return;
+    protected GetVersesResponse doInBackground(GetVersesRequest... getVersesRequests) {
+        GetVersesResponse response = null;
+        try {
+            response = presenter.getVerses(getVersesRequests[0]);
+        }
+        catch (Exception e) {
+            response = new GetVersesResponse("get verses failed", null);
+        }
+        finally {
+            return response;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(GetVersesResponse response) {
+        observer.onGetVerses(response);
     }
 }

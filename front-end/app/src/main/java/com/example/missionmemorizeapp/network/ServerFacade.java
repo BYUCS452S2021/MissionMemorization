@@ -23,24 +23,21 @@ import java.io.IOException;
 
 public class ServerFacade {
 
-    private static final String SERVER_URL = "localhost:3001";
+    private static final String SERVER_URL = "http://localhost:3001";
 
     public LoginResponse loginUser(LoginRequest request, String urlPath) throws IOException {
-        //ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        //return clientCommunicator.doPost(urlPath, request, null, LoginResponse.class);
-        return null;
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, LoginResponse.class);
     }
 
     public SignupResponse signUpUser(SignupRequest request, String urlPath) throws IOException {
-        //ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        //return clientCommunicator.doPost(urlPath, request, null, SignupResponse.class);
-        return null;
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, SignupResponse.class);
     }
 
     public LogoutResponse logoutUser(LogoutRequest request, String urlPath) throws IOException {
-        //ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        //return clientCommunicator.doDelete(urlPath, request, null, LogoutResponse.class);
-        return null;
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doDelete(urlPath, null, LogoutResponse.class);
     }
 
     public DeleteFolderResponse deleteFolder(DeleteFolderRequest request, String urlPath) throws IOException {
