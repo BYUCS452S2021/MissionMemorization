@@ -126,6 +126,10 @@ router.post('/register', async (req, res) => {
 
     let query = "SELECT COUNT(username) AS usercount FROM User WHERE username = ? or email = ?";    
 
+
+
+
+
     let db = new sqlite3.Database(DB_FILE_PATH)
     // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
     let username_check = await db.get(query, [req.body.username, req.body.email], (err, row) => {
@@ -167,6 +171,8 @@ router.post('/register', async (req, res) => {
                 req.session.userID = row.user_id;
                 return row.user_id
               });
+
+              db.close
 
     //TODO: set user session info
               let retUser = {
@@ -248,10 +254,10 @@ router.post('/login', async (req, res) => {
     
     let retUser = {
       user_id: result.user_id,
-      username: user.username,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName
+      username: result.username,
+      email: result.email,
+      firstName: result.firstName,
+      lastName: result.lastName
     };  
 
     // set user session info
