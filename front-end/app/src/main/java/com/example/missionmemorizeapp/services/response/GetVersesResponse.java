@@ -8,7 +8,7 @@ public class GetVersesResponse extends Response {
 
     List<Verse> verses;
 
-    GetVersesResponse(String message, List<Verse> verses) {
+    public GetVersesResponse(String message, List<Verse> verses) {
         super(message);
         this.verses = verses;
     }

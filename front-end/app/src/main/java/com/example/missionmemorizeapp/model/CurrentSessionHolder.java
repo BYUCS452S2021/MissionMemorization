@@ -24,6 +24,14 @@ public class CurrentSessionHolder extends Application {
         this.signedInUser = signedInUser;
     }
 
+    public void setFoldersOfUser(List<Folder> foldersOfUser) {
+        this.foldersOfUser = foldersOfUser;
+    }
+
+    public void setRootProjectsOfUser(List<Project> rootProjectsOfUser) {
+        this.rootProjectsOfUser = rootProjectsOfUser;
+    }
+
     public List<Project> getRootProjectsOfUser() {
         return rootProjectsOfUser;
     }

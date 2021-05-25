@@ -6,22 +6,26 @@ import java.util.List;
 public class Project {
 
     public int project_id;
-    public boolean completed;
-    public int numAttempts;
-    public int numCorrect;
+    public int completed;
+    public int attempts;
+    public int corrects;
 
     private List<Verse> versesInProject = new ArrayList<>();
 
     public Project() {}
+
+    public int getProject_id() {
+        return project_id;
+    }
 
     public List<Verse> getVersesInProject() {
         return versesInProject;
     }
 
     public float getPercentage() {
-        if (numAttempts == 0)
+        if (attempts == 0)
               return 0;
-        return numCorrect / numAttempts;
+        return corrects / attempts;
     }
 
     public String getProjectName() {
@@ -43,18 +47,22 @@ public class Project {
     }
 
     public int getNumAttempts() {
-        return numAttempts;
+        return attempts;
     }
 
     public int getNumCorrect() {
-        return numCorrect;
+        return corrects;
+    }
+
+    public void setProject_id(int project_id) {
+        this.project_id = project_id;
     }
 
     public void setNumAttempts(int numAttempts) {
-        this.numAttempts = numAttempts;
+        this.attempts = numAttempts;
     }
 
     public void setNumCorrect(int numCorrect) {
-        this.numCorrect = numCorrect;
+        this.corrects = numCorrect;
     }
 }

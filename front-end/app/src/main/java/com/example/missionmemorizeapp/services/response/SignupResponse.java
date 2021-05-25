@@ -5,7 +5,6 @@ import com.example.missionmemorizeapp.model.User;
 public class SignupResponse extends Response{
 
     User user;
-    String message;
 
     public SignupResponse(User user, String message) {
         super(message);

@@ -74,3 +74,32 @@ router.post('/', async (req, res) => {
       });
     }
   });
+
+// delete folder from Folder table
+// deleting a folder will cause all of the projects currently within it to be deleted as well
+// folder_id is an integer
+router.delete('/:folder_id', async (req, res) => {
+  try {
+    
+    // open the database
+    console.log(await sqlite.open(DB_FILE_PATH));
+
+    // Delete folder with corresponding folder_id
+    let sql = "DELETE FROM Folder WHERE folder_id = " + req.params.folder_id + ";";
+     
+    r = await sqlite.run(sql);
+    if(r) console.log("Folder successfully deleted");
+
+    sqlite.close();
+
+    return res.status(200).send({
+      message: "Folder deleted successfully"
+    });
+      
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      message: error
+    });
+  }
+});

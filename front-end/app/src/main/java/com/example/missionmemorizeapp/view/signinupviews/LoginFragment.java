@@ -53,7 +53,7 @@ public class LoginFragment extends Fragment implements LoginTask.LoginResultObse
             @Override
             public void onClick(View v) {
                 LoginTask task = new LoginTask(presenter, LoginFragment.this);
-                LoginRequest request = new LoginRequest(userName.toString(), password.toString());
+                LoginRequest request = new LoginRequest(userName.getText().toString(), password.getText().toString());
                 task.execute(request);
             }
         });

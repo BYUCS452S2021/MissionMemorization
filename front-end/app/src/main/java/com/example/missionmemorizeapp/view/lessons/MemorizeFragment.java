@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.Project;
+import com.example.missionmemorizeapp.view.dialogs.ProfileInfoDialog;
+import com.example.missionmemorizeapp.view.dialogs.ResultsDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +87,8 @@ public class MemorizeFragment extends Fragment {
             public void onClick(View v) {
                 //TODO UpdateProjectTask
                 // set bundle and bring up ResultsDialog
+                ResultsDialog resultsDialog = new ResultsDialog(true);
+                resultsDialog.show(getChildFragmentManager(), "MyFragment");
             }
         });
 
@@ -94,6 +98,8 @@ public class MemorizeFragment extends Fragment {
             public void onClick(View v) {
                 //TODO UpdateProjectTask
                 // set bundle and bring up ResultsDialog
+                ResultsDialog resultsDialog = new ResultsDialog(false);
+                resultsDialog.show(getChildFragmentManager(), "MyFragment");
             }
         });
 

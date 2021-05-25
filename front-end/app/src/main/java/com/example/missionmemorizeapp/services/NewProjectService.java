@@ -14,10 +14,6 @@ public class NewProjectService {
     private String pathWithFolderID;
     private static final String URL_PATH = "/api/project/";
 
-    public NewProjectService() {
-        serverFacade = new ServerFacade();
-    }
-
     public NewProjectService(int folder_id) {
         serverFacade = new ServerFacade();
         this.pathWithFolderID = URL_PATH + folder_id;

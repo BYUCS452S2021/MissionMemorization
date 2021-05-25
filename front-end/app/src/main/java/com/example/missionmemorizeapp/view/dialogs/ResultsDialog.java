@@ -14,10 +14,15 @@ import com.example.missionmemorizeapp.view.HomeFragment;
 
 public class ResultsDialog extends DialogFragment {
 
+    boolean correct;
+
+    public ResultsDialog(boolean correct) {
+        this.correct = correct;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        boolean correct = savedInstanceState.getBoolean("correct");
         String message;
         if (correct)
             message = "Nice work!";
@@ -29,9 +34,8 @@ public class ResultsDialog extends DialogFragment {
         builder.setMessage(message)
                 .setPositiveButton(R.string.back_to_home, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
                         getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.flFragmentMain, new HomeFragment());
+                                .replace(R.id.flFragmentMain, new HomeFragment()).commit();
                     }
                 })
                 .setNegativeButton(R.string.try_again, new DialogInterface.OnClickListener() {
