@@ -126,92 +126,58 @@ router.post('/register', async (req, res) => {
 
     let query = "SELECT COUNT(username) AS usercount FROM User WHERE username = ? or email = ?";    
 
+    await sqlite.open(DB_FILE_PATH);
+
+    username_check = await sqlite.get(query, [req.body.username, req.body.email]);
+    
+    if (username_check.usercount > 0) {
+      return res.status(403).send({
+        message: "username or email already exist"
+      });
+    }
+    console.log(username_check.usercount)
+    sqlite.close();
+    var entry = `'${req.body.username}','${pass}','${req.body.email}','${req.body.first_name}','${req.body.last_name}'`
+    query = "INSERT INTO User (username, password, email, first_name, last_name)" +
+            "VALUES(" + entry + ");"
+
+    await sqlite.open(DB_FILE_PATH);
+    await sqlite.run(query, [req.body.username, pass, req.body.email, req.body.first_name, req.body.last_name]);
+    console.log('new user was added');
+    sqlite.close();
 
 
+    query = "SELECT user_id FROM User WHERE username = ?";
+    await sqlite.open(DB_FILE_PATH);
+    newUser = await sqlite.get(query, [req.body.username]);
+    sqlite.close();
 
 
-    let db = new sqlite3.Database(DB_FILE_PATH)
-    // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
-    let username_check = await db.get(query, [req.body.username, req.body.email], (err, row) => {
-      if (err) {
-        return console.error("user/email check failed" + err.message);
-      }
-
-      if (row.usercount > 0) {
-        return res.status(403).send({
-          message: "username or email already exist"
-        });
-      } else {
-        console.log(row.usercount)
-        
-        let newUser = null
-        try {
-            
-            // override the plaintext password with the hashed one
-            
-            query = "INSERT INTO User (username, password, email, first_name, last_name)" +
-                    "VALUES(?, ?, ?, ?, ?);"
-
-            db = new sqlite3.Database(DB_FILE_PATH)
-
-            newUser = db.run(query, [req.body.username, pass, req.body.email, req.body.first_name, req.body.last_name], function(err) {
-              if (err) {
-                return console.error(err.message);
-              }
-              console.log('${req.body.username} was added as a user');
-
-              query = "SELECT user_id FROM User WHERE username = ?";
-
-              let db = new sqlite3.Database(DB_FILE_PATH)
-              // DBMS SHOULD DO THIS BUT COULD BE GOOD TO CHECK
-              let user_id = db.get(query, [req.body.username], (err, row) => {
-                if (err) {
-                  return console.error("issue retrieving user_id" + err.message);
-                }
-                req.session.userID = row.user_id;
-                return row.user_id
-              });
-
-              db.close
-
+    req.session.user_id = newUser.user_id;
     //TODO: set user session info
-              let retUser = {
-                user_id: user_id,
-                username: req.body.username,
-                email: req.body.email,
-                firstName: req.body.first_name,
-                lastName: req.body.last_name
-              };
-          
-              // send back a 200 OK response, along with the user that was created
-              return res.send({
-                user: retUser,
-                  
-          
-    // TODO:  Add returns for project and folder
-          
-    //   *******************************  TODO:  Add Function Calls to folder and project
-          
-              });
-            });
-          db.close();
+    let retUser = {
+      user_id: newUser.user_id,
+      username: req.body.username,
+      email: req.body.email,
+      firstName: req.body.first_name,
+      lastName: req.body.last_name
+    };
 
-        } catch (error) {
-            console.log(error);
-            next(error);
-        }
-      }
-    });
-    db.close();
+    // send back a 200 OK response, along with the user that was created
+    return res.send({
+      user: retUser,
         
+
+// TODO:  Add returns for project and folder
+
+//   *******************************  TODO:  Add Function Calls to folder and project
+
+    });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
 });
-
-
-
 
 
 // login a user
