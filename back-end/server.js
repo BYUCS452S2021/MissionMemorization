@@ -1,9 +1,15 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-// const mongoose = require('mongoose');
-const sqlite3 = require('sqlite3').verbose();
+const mongoose = require('mongoose');
 
-const DB_FILE_PATH = '../MissionMemorizeRelational.db';
+
+// IMPORTANT:  UPDATED FOR MONGODB
+
+//   firstName: String,
+//   lastName: String,
+//   username: String,
+//   password: String,
+//   email: String
 
 // setup express
 const app = express();
@@ -15,19 +21,11 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-//   firstName: String,
-//   lastName: String,
-//   username: String,
-//   password: String,
-//   email: String
-
-
-// let db = new sqlite3.Database(DB_FILE_PATH, (err) => {
-//     if (err) {
-//         console.error(err.message);
-//     }
-//     console.log('Connected to the Mission Memorize database.');
-// });
+// connect to the mongodb database
+mongoose.connect('mongodb+srv://mmbackend:kmpLHi86iTZh8f8w@missionmemorize.bcz51.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());

@@ -1,1 +1,1 @@
-npm install express sqlite3 argon2 body-parser cookie-parser cookie-session
+npm install express mongodb argon2 body-parser cookie-parser cookie-session
