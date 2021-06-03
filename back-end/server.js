@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 
 
 // connect to the mongodb database
-mongoose.connect('mongodb+srv://mmbackend:kmpLHi86iTZh8f8w@missionmemorize.bcz51.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://mmbackend:kmpLHi86iTZh8f8w@missionmemorize.bcz51.mongodb.net/MissionMemorize?retryWrites=true&w=majority', {
   useUnifiedTopology: true,
   useNewUrlParser: true
 });
@@ -42,8 +42,8 @@ app.use(cookieSession({
 }));
 
 // import the users module and setup its API path
-const users = require("./users.js");
-app.use("/api/user", users.routes);
+const user = require("./User.js");
+app.use("/api/user", user.routes);
 
 //Import modules for verses, folders, and projects
 const verses = require("./verses.js");
