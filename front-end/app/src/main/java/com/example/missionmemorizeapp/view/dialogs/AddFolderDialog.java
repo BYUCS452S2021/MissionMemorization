@@ -15,12 +15,23 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.missionmemorizeapp.R;
+import com.example.missionmemorizeapp.model.CurrentSessionHolder;
+import com.example.missionmemorizeapp.presenter.HomePresenter;
+import com.example.missionmemorizeapp.services.request.NewFolderRequest;
+import com.example.missionmemorizeapp.view.tasks.NewFolderTask;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AddFolderDialog extends DialogFragment {
 
+    HomePresenter presenter;
+    NewFolderTask.NewFolderObserver observer;
+
+    public AddFolderDialog(HomePresenter presenter, NewFolderTask.NewFolderObserver observer) {
+        this.presenter = presenter;
+        this.observer = observer;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -32,7 +43,10 @@ public class AddFolderDialog extends DialogFragment {
                 .setView(input)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //TODO NewProjectTask
+                        NewFolderTask task = new NewFolderTask(presenter, observer);
+                        NewFolderRequest request = new NewFolderRequest(CurrentSessionHolder.getInstance().getSignedInUser().getUser_id(),
+                                input.getText().toString());
+                        task.execute(request);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
