@@ -59,9 +59,8 @@ public class ServerFacade {
     }
 
     public NewFolderResponse postNewFolder(NewFolderRequest request, String urlPath) throws IOException {
-        //ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        //return clientCommunicator.doPost(urlPath, request, null, NewFolderResponse.class);
-        return null;
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, NewFolderResponse.class);
     }
 
     public NewProjectResponse postNewProject(NewProjectRequest request, String urlPath) throws IOException {

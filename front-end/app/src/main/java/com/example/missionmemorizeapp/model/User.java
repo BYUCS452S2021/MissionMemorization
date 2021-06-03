@@ -7,14 +7,14 @@ import java.util.List;
 public class User {
 
     public int user_id;
-    public String firstName;
-    public String lastName;
+    public String first_name;
+    public String last_name;
     public String email;
     public String username;
 
     public User(String first_name, String last_name, String email, String username) {
-        this.firstName = first_name;
-        this.lastName = last_name;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.username = username;
     }
@@ -24,11 +24,11 @@ public class User {
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
     public String getEmail() {

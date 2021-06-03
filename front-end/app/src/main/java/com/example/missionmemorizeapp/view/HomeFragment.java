@@ -24,7 +24,7 @@ import com.example.missionmemorizeapp.view.tasks.NewFolderTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObserver {
+public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObserver, HomePresenter.View {
 
     RecyclerView projectsRecyclerView;
     LinearLayoutManager projectLayoutManager;
@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObs
 
 
     public HomeFragment() {
-        // Required empty public constructor
+        presenter = new HomePresenter(this);
     }
 
 
@@ -101,5 +101,6 @@ public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObs
 
     @Override
     public void onNewFolderResult(NewFolderResponse response) {
+        getView().findViewById(R.id.homeFrameLayout).invalidate();
     }
 }
