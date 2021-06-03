@@ -42,12 +42,12 @@ app.use(cookieSession({
 }));
 
 // import the users module and setup its API path
-const user = require("./User.js");
+const user = require("./users.js");
 app.use("/api/user", user.routes);
 
 //Import modules for verses, folders, and projects
-const verses = require("./verses.js");
-app.use("/api/verse", verses.routes);
+const verseSource = require("./verses.js");
+app.use("/api/verse", verseSource.routes);
 
 const folders = require("./folders.js");
 app.use("/api/folder", folders.routes);
