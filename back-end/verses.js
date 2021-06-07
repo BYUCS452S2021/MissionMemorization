@@ -22,14 +22,15 @@ const verseSchema = new mongoose.Schema({
 
 
 var verseParser = function(req) {  // , res, next
-  var versesRaw = req.query.verses;
-  var versesfiltered = versesRaw.split(',');
+  // var versesRaw = req.query.verses;
+  var versesfiltered = req.split(',');  // versesRaw.split(',');
   let verselist = [];
+
   versesfiltered.forEach((verse, i) => { 
     var index = verse.indexOf('-');
     if (index !== -1) {
       let start = parseInt(verse.substring(0, index));
-      let end = parseInt(verse.substring(index));
+      let end = parseInt(verse.substring(index + 1));
       if (start > end) {
         [start, end] = [end, start];
       }
@@ -76,7 +77,7 @@ router.get("/abrev", async (req, res) => {
   try {
     let verselist = verseParser(req.query.verses)
 
-    let verse = await Verse.find({book_abrev:req.body.book, chapter:req.body.chapter, verse_num: {$in: verselist} });
+    let verse = await Verse.find({book_abrev:req.query.book, chapter:req.query.chapter, verse_num: {$in: verselist} });
     return res.send(verse);
   } catch (error) {
     console.log(error);
@@ -89,7 +90,7 @@ router.get("/url", async (req, res) => {
   try {
     let verselist = verseParser(req.query.verses)
 
-    let verse = await Verse.findOne({book_url:req.body.book, chapter:req.body.chapter, verse_num: {$in: verselist} });
+    let verse = await Verse.find({book_url:req.query.book, chapter:req.query.chapter, verse_num: {$in: verselist} });
     return res.send(verse);
   } catch (error) {
     console.log(error);
