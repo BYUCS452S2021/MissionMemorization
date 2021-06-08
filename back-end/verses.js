@@ -7,6 +7,13 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 
+// Routes:
+//  verse/id/[verse_id]
+//  verse/ids?verse_ids=[verse_id,verse_id]
+//  verse/full?book=[full_book_name]&chapter=[some_number]&verses=[verse_num,verse_num,verse_num-verse_num]
+//  verse/abrev?book=[book_abrev]&chapter=[some_number]&verses=[verse_num,verse_num,verse_num-verse_num]
+//  verse/url?book=[book_url]&chapter=[some_number]&verses=[verse_num,verse_num,verse_num-verse_num]
+
 const verseSchema = new mongoose.Schema({
   verse_id: Number,
   lang: String,
@@ -58,13 +65,31 @@ router.get("/id/:verse_id", async (req, res) => {
   }
 });
 
+// get many verses by id - accepts camma delimated lists (no spaces between them)
+router.get("/ids/", async (req, res) => {
+  try {
+    var verseIds = verseParser(req.query.verse_ids);
+    let verses = await Verse.find({verse_id: {$in: verseIds}});
+    return res.send(verses);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 // get a verse by full book name
 router.get("/full", async (req, res) => {
   try {
     // Build Verse Parser
     let verselist = verseParser(req.query.verses)
 
-    let verse = await Verse.find({book_name:req.query.book, chapter:req.query.chapter, verse_num: {$in: verselist} }); //req.query.verse
+    let verse = await Verse.find({
+      book_name:req.query.book, 
+      chapter:req.query.chapter, 
+      verse_num: {$in: verselist} 
+    }).sort({
+      verse_num: -1
+    }); //req.query.verse
     return res.send(verse);
   } catch (error) {
     console.log(error);

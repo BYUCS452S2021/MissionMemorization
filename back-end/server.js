@@ -49,11 +49,10 @@ app.use("/api/user", user.routes);
 const verseSource = require("./verses.js");
 app.use("/api/verse", verseSource.routes);
 
-const folders = require("./folders.js");
-app.use("/api/folder", folders.routes);
-
 const projects = require("./projects.js");
 app.use("/api/project", projects.routes);
 
+const folders = require("./folders.js");
+app.use("/api/folder", folders.routes);
 
 app.listen(3001, () => console.log('Server listening on port 3001!'));
