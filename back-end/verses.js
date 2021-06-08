@@ -83,7 +83,13 @@ router.get("/full", async (req, res) => {
     // Build Verse Parser
     let verselist = verseParser(req.query.verses)
 
-    let verse = await Verse.find({book_name:req.query.book, chapter:req.query.chapter, verse_num: {$in: verselist} }); //req.query.verse
+    let verse = await Verse.find({
+      book_name:req.query.book, 
+      chapter:req.query.chapter, 
+      verse_num: {$in: verselist} 
+    }).sort({
+      verse_num: -1
+    }); //req.query.verse
     return res.send(verse);
   } catch (error) {
     console.log(error);
