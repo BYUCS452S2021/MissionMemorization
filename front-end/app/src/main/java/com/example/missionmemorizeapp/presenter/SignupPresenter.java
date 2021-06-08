@@ -30,7 +30,7 @@ public class SignupPresenter {
         SignUpService signUpService = new SignUpService();
         SignupResponse response = signUpService.signUpUser(request);
 
-        Verse newVerse = new Verse(343, "3 Nephi", 455, 21, 17, "And when he had said these words, he wept, and the multitude bare record of it, and he took their little children, one by one, and blessed them, and prayed unto the Father for them.");
+        /*Verse newVerse = new Verse(343, "3 Nephi", 455, 21, 17, "And when he had said these words, he wept, and the multitude bare record of it, and he took their little children, one by one, and blessed them, and prayed unto the Father for them.");
         Project newProject = new Project();
         newProject.getVersesInProject().add(newVerse);
         newProject.setNumAttempts(5);
@@ -39,7 +39,7 @@ public class SignupPresenter {
         newFolder.setFolderName("Mission Verses");
         newFolder.getProjectsInFolder().add(newProject);
         CurrentSessionHolder.getInstance().getRootProjectsOfUser().add(newProject);
-        CurrentSessionHolder.getInstance().getFoldersOfUser().add(newFolder);
+        CurrentSessionHolder.getInstance().getFoldersOfUser().add(newFolder);*/
         CurrentSessionHolder.getInstance().setSignedInUser(response.getUser());
 
         return response;

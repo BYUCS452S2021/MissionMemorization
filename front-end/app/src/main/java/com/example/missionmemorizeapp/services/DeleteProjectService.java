@@ -14,7 +14,7 @@ public class DeleteProjectService {
     private String pathWithProjectID;
     private static final String URL_PATH = "/api/project/";
 
-    public DeleteProjectService(int project_id) {
+    public DeleteProjectService(String project_id) {
         serverFacade = new ServerFacade();
         this.pathWithProjectID = URL_PATH + project_id;
     }

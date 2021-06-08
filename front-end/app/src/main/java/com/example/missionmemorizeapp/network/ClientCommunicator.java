@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.missionmemorizeapp.model.Verse;
 import com.example.missionmemorizeapp.network.Serializer;
 
 
@@ -29,6 +30,9 @@ class ClientCommunicator {
     }
 
     <T> T doPost(String urlPath, final Object requestInfo, Map<String, String> headers, Class<T> returnType) throws IOException {
+        headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+
         RequestStrategy requestStrategy = new RequestStrategy() {
             @Override
             public void setRequestMethod(HttpURLConnection connection) throws IOException {
@@ -44,6 +48,22 @@ class ClientCommunicator {
                     os.writeBytes(entityBody);
                     os.flush();
                 }
+            }
+        };
+
+        return doRequest(urlPath, headers, returnType, requestStrategy);
+    }
+
+    <T> T doGet(String urlPath, Map<String, String> headers, Class<T> returnType) throws IOException {
+        RequestStrategy requestStrategy = new RequestStrategy() {
+            @Override
+            public void setRequestMethod(HttpURLConnection connection) throws IOException {
+                connection.setRequestMethod("GET");
+            }
+
+            @Override
+            public void sendRequest(HttpURLConnection connection) {
+                // Nothing to send. For a get, the request is sent when the connection is opened.
             }
         };
 
@@ -88,26 +108,7 @@ class ClientCommunicator {
         return doRequest(urlPath, headers, returnType, requestStrategy);
     }
 
-    <T> T doGet(String urlPath, Map<String, String> headers, Class<T> returnType) throws IOException {
-        RequestStrategy requestStrategy = new RequestStrategy() {
-            @Override
-            public void setRequestMethod(HttpURLConnection connection) throws IOException {
-                connection.setRequestMethod("GET");
-            }
-
-            @Override
-            public void sendRequest(HttpURLConnection connection) {
-                // Nothing to send. For a get, the request is sent when the connection is opened.
-            }
-        };
-
-        return doRequest(urlPath, headers, returnType, requestStrategy);
-    }
-
     private <T> T doRequest(String urlPath, Map<String, String> headers, Class<T> returnType, RequestStrategy requestStrategy) throws IOException {
-
-        headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
 
         HttpURLConnection connection = null;
 

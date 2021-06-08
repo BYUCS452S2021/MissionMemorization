@@ -1,4 +1,4 @@
 package com.example.missionmemorizeapp.presenter;
 
-public class FolderPresenter {
+public class FolderPresenter extends ProjectPresenter {
 }

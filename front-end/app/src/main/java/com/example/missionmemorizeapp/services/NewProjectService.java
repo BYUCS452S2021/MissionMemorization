@@ -14,9 +14,12 @@ public class NewProjectService {
     private String pathWithFolderID;
     private static final String URL_PATH = "/api/project/";
 
-    public NewProjectService(int folder_id) {
+    public NewProjectService(Integer folder_id) {
         serverFacade = new ServerFacade();
-        this.pathWithFolderID = URL_PATH + folder_id;
+        if (folder_id != null)
+            this.pathWithFolderID = URL_PATH + folder_id;
+        else
+            this.pathWithFolderID = URL_PATH;
     }
 
     public NewProjectResponse postProject(NewProjectRequest request) throws IOException {

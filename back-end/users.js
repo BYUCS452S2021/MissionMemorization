@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const argon2 = require("argon2");
+const { getProjects } = require('./projects');
 
 const router = express.Router();
 
@@ -181,8 +182,14 @@ router.post('/login', async (req, res) => {
     // set user session info
     req.session.userID = user._id;
 
-    return res.send({
-      user: user
+    const projectPromise = getProjects(user._id);
+    projectPromise.then(allProjects => {
+      console.log(user);
+      console.log(allProjects);
+      return res.send({
+        user: user,
+        projects: allProjects
+      });
     });
 
   } catch (error) {

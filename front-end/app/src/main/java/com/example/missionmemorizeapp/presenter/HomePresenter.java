@@ -33,7 +33,7 @@ import java.util.List;
 
 import static com.example.missionmemorizeapp.model.CurrentSessionHolder.getInstance;
 
-public class HomePresenter {
+public class HomePresenter extends ProjectPresenter{
 
     private final View view;
 
@@ -63,38 +63,6 @@ public class HomePresenter {
         return response;
     }
 
-    public DeleteProjectResponse deleteProject(DeleteProjectRequest request, int project_id) throws IOException {
-        DeleteProjectService deleteProjectService = new DeleteProjectService(project_id);
-        DeleteProjectResponse response = deleteProjectService.deleteProject(request);
-
-        Project projectToDelete = new Project();
-        for (Project project : CurrentSessionHolder.getInstance().getRootProjectsOfUser()) {
-            if (project.getProject_id() == project_id)
-                projectToDelete = project;
-        }
-        CurrentSessionHolder.getInstance().getRootProjectsOfUser().remove(projectToDelete);
-
-        for (Folder folder : CurrentSessionHolder.getInstance().getFoldersOfUser()) {
-            for (Project project : folder.getProjectsInFolder()) {
-                if (project.getProject_id() == project_id)
-                    projectToDelete = project;
-            }
-            folder.getProjectsInFolder().remove(projectToDelete);
-        }
-
-        return response;
-    }
-
-    public UpdateProjectResponse updateProject(UpdateProjectRequest request, int project_id, Project project, boolean correct) throws IOException {
-        UpdateProjectService updateProjectService = new UpdateProjectService(project_id);
-        UpdateProjectResponse response = updateProjectService.updateProject(request);
-
-        project.setNumAttempts(project.getNumAttempts() + 1);
-        if (correct)
-            project.setNumCorrect(project.getNumCorrect() + 1);
-
-        return response;
-    }
 
     public LogoutResponse logout(LogoutRequest request) throws IOException {
         LogoutService logoutService = new LogoutService();
@@ -103,39 +71,6 @@ public class HomePresenter {
         CurrentSessionHolder.getInstance().setSignedInUser(null);
         CurrentSessionHolder.getInstance().setRootProjectsOfUser(null);
         CurrentSessionHolder.getInstance().setFoldersOfUser(null);
-
-        return response;
-    }
-
-    public GetVersesResponse getVerses(GetVersesRequest request) throws IOException {
-        GetVersesService getVersesService = new GetVersesService();
-        GetVersesResponse response = getVersesService.getVerses(request);
-
-        return response;
-    }
-
-    public NewProjectResponse newProject(NewProjectRequest request, Integer folder_id, List<Verse> verses) throws IOException {
-        NewProjectService newProjectService = new NewProjectService(folder_id);
-        NewProjectResponse response = newProjectService.postProject(request);
-
-
-        Project newProject = new Project();
-        newProject.getVersesInProject().addAll(verses);
-        newProject.setNumCorrect(0);
-        newProject.setNumAttempts(0);
-        newProject.setProject_id(response.getProject_id());
-
-        if (folder_id == null) {
-            CurrentSessionHolder.getInstance().getRootProjectsOfUser().add(newProject);
-        }
-        else {
-            for (Folder folder : CurrentSessionHolder.getInstance().getFoldersOfUser()) {
-                if (folder.getFolder_id() == folder_id) {
-                    folder.getProjectsInFolder().add(newProject);
-                    break;
-                }
-            }
-        }
 
         return response;
     }

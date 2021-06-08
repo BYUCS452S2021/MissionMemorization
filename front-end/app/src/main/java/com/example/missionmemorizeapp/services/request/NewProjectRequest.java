@@ -1,17 +1,27 @@
 package com.example.missionmemorizeapp.services.request;
 
+import com.example.missionmemorizeapp.model.Verse;
+
 import java.util.List;
 
 public class NewProjectRequest {
 
-    public int user_id;
-    public List<Integer> verse_ids;
+    public String user_id;
+    public List<Verse> verses;
 
     public NewProjectRequest() {
     }
 
-    public NewProjectRequest(int user_id, List<Integer> verse_ids) {
+    public NewProjectRequest(String user_id, List<Verse> verses) {
         this.user_id = user_id;
-        this.verse_ids = verse_ids;
+        this.verses = verses;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public List<Verse> getVerses() {
+        return verses;
     }
 }

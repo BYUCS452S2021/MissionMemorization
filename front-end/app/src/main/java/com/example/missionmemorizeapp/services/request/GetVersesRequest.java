@@ -4,16 +4,16 @@ import java.util.List;
 
 public class GetVersesRequest {
 
-    public String book_name;
+    public String book;
     public int chapter;
-    public List<Integer> verse_nums;
+    public String verse;
 
     public GetVersesRequest() {
     }
 
-    public GetVersesRequest(String book_name, int chapter, List<Integer> verse_nums) {
-        this.book_name = book_name;
+    public GetVersesRequest(String book_name, int chapter, String verse_nums) {
+        this.book = book_name;
         this.chapter = chapter;
-        this.verse_nums = verse_nums;
+        this.verse = verse_nums;
     }
 }

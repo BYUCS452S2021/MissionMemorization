@@ -6,14 +6,14 @@ import java.util.List;
 
 public class GetVersesResponse extends Response {
 
-    List<Verse> verses;
+    List<Verse> verse;
 
     public GetVersesResponse(String message, List<Verse> verses) {
         super(message);
-        this.verses = verses;
+        this.verse = verses;
     }
 
     public List<Verse> getVerses() {
-        return verses;
+        return verse;
     }
 }

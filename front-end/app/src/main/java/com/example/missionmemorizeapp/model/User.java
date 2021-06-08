@@ -6,21 +6,22 @@ import java.util.List;
 
 public class User {
 
-    public int user_id;
+    public String _id;
     public String first_name;
     public String last_name;
     public String email;
     public String username;
 
-    public User(String first_name, String last_name, String email, String username) {
+    public User(String _id, String first_name, String last_name, String email, String username) {
+        this._id = _id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.username = username;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public String getUser_id() {
+        return _id;
     }
 
     public String getFirstName() {

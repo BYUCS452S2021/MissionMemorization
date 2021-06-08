@@ -5,21 +5,21 @@ import java.util.List;
 
 public class Project {
 
-    public int project_id;
+    public String _id;
     public int completed;
     public int attempts;
     public int corrects;
 
-    private List<Verse> versesInProject = new ArrayList<>();
+    private List<Verse> verses = new ArrayList<>();
 
     public Project() {}
 
-    public int getProject_id() {
-        return project_id;
+    public String getProject_id() {
+        return _id;
     }
 
     public List<Verse> getVersesInProject() {
-        return versesInProject;
+        return verses;
     }
 
     public float getPercentage() {
@@ -30,9 +30,9 @@ public class Project {
 
     public String getProjectName() {
         StringBuilder name = new StringBuilder();
-        for (int i = 0; i < versesInProject.size(); i++) {
-            name.append(versesInProject.get(i).formatReference());
-            if (i != versesInProject.size() - 1)
+        for (int i = 0; i < verses.size(); i++) {
+            name.append(verses.get(i).formatReference());
+            if (i != verses.size() - 1)
                 name.append(",");
         }
         return name.toString();
@@ -40,7 +40,7 @@ public class Project {
 
     public String getProjectVerseString() {
         StringBuilder body = new StringBuilder();
-        for (Verse verse : versesInProject) {
+        for (Verse verse : verses) {
             body.append(verse.getText());
         }
         return body.toString();
@@ -54,8 +54,8 @@ public class Project {
         return corrects;
     }
 
-    public void setProject_id(int project_id) {
-        this.project_id = project_id;
+    public void setProject_id(String project_id) {
+        this._id = project_id;
     }
 
     public void setNumAttempts(int numAttempts) {

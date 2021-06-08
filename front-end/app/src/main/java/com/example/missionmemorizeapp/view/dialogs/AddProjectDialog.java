@@ -10,12 +10,30 @@ import android.widget.Toast;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.missionmemorizeapp.R;
+import com.example.missionmemorizeapp.presenter.HomePresenter;
+import com.example.missionmemorizeapp.presenter.ProjectPresenter;
+import com.example.missionmemorizeapp.services.request.GetVersesRequest;
+import com.example.missionmemorizeapp.services.response.GetVersesResponse;
+import com.example.missionmemorizeapp.view.HomeFragment;
+import com.example.missionmemorizeapp.view.tasks.GetVersesTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddProjectDialog extends DialogFragment {
 
+    ProjectPresenter presenter;
+    GetVersesTask.GetVersesObserver observer;
+    AddProjectDialog instance = this;
+
     String book_name;
     int chapter;
-    int verse_num;
+    String verse_nums;
+
+    public AddProjectDialog(ProjectPresenter presenter, GetVersesTask.GetVersesObserver observer) {
+        this.presenter = presenter;
+        this.observer = observer;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,9 +45,11 @@ public class AddProjectDialog extends DialogFragment {
                 .setView(input)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (parseReference(input.toString())) {
-                            //TODO GetVerseTask then NewProjectTask
-                            // then close dialog
+                        if (parseReference(input.getText().toString())) {
+                            dialog.dismiss();
+                            GetVersesTask task = new GetVersesTask(presenter, observer);
+                            GetVersesRequest request = new GetVersesRequest(book_name, chapter, verse_nums);
+                            task.execute(request);
                         }
                         else {
                             Toast.makeText(getContext(), "Not able to parse reference" , Toast.LENGTH_SHORT).show();
@@ -46,18 +66,21 @@ public class AddProjectDialog extends DialogFragment {
     }
 
     boolean parseReference(String input) {
-        String[] split = input.split("\\s|:");
-        if (split.length == 3) {
-            book_name = split[0];
-            chapter = Integer.parseInt(split[1]);
-            verse_num = Integer.parseInt(split[2]);
-            return true;
-        }
-        else if (split.length == 4) {
-            book_name = split[0] + " " + split[1];
-            chapter = Integer.parseInt(split[2]);
-            verse_num = Integer.parseInt(split[3]);
-            return true;
+        String[] splitOnColon = input.split(":");
+        if (splitOnColon.length == 2){
+            verse_nums = splitOnColon[1].replaceAll("\\s", "");
+            String[] splitOnSpace = splitOnColon[0].split("\\s");
+            if (splitOnSpace.length == 2) {
+                book_name = splitOnSpace[0];
+                chapter = Integer.parseInt(splitOnSpace[1]);
+                return true;
+            }
+            else if (splitOnSpace.length == 3) {
+                book_name = splitOnSpace[0] + '-' + splitOnSpace[1];
+                chapter = Integer.parseInt(splitOnSpace[2]);
+                return true;
+            }
+            else return false;
         }
         else return false;
     }

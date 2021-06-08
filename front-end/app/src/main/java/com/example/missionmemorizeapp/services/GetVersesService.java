@@ -11,13 +11,16 @@ import java.io.IOException;
 public class GetVersesService {
 
     public ServerFacade serverFacade;
-    private static final String URL_PATH = "/api/verse/";
+    private static String urlPath = "/api/verse/url";
 
     public GetVersesService() {
         serverFacade = new ServerFacade();
     }
 
     public GetVersesResponse getVerses(GetVersesRequest request) throws IOException {
-        return serverFacade.getVerses(request, URL_PATH);
+        urlPath = urlPath + "?book=" + request.book;
+        urlPath = urlPath + "&chapter=" + request.chapter;
+        urlPath = urlPath + "&verses=" + request.verse;
+        return serverFacade.getVerses(urlPath);
     }
 }

@@ -15,16 +15,26 @@ import android.widget.Button;
 
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.CurrentSessionHolder;
+import com.example.missionmemorizeapp.model.Verse;
 import com.example.missionmemorizeapp.presenter.HomePresenter;
+import com.example.missionmemorizeapp.services.request.NewProjectRequest;
+import com.example.missionmemorizeapp.services.response.GetVersesResponse;
 import com.example.missionmemorizeapp.services.response.NewFolderResponse;
+import com.example.missionmemorizeapp.services.response.NewProjectResponse;
 import com.example.missionmemorizeapp.view.dialogs.AddFolderDialog;
 import com.example.missionmemorizeapp.view.dialogs.AddProjectDialog;
+import com.example.missionmemorizeapp.view.tasks.GetVersesTask;
 import com.example.missionmemorizeapp.view.tasks.NewFolderTask;
+import com.example.missionmemorizeapp.view.tasks.NewProjectTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObserver, HomePresenter.View {
+public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObserver, GetVersesTask.GetVersesObserver,
+        NewProjectTask.NewProjectObserver, HomePresenter.View {
 
     RecyclerView projectsRecyclerView;
     LinearLayoutManager projectLayoutManager;
@@ -69,7 +79,7 @@ public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObs
         addNewProjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddProjectDialog addProjectDialog = new AddProjectDialog();
+                AddProjectDialog addProjectDialog = new AddProjectDialog(presenter, fragment);
                 addProjectDialog.show(getChildFragmentManager(), "MyFragment");
             }
         });
@@ -101,6 +111,18 @@ public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObs
 
     @Override
     public void onNewFolderResult(NewFolderResponse response) {
-        getView().findViewById(R.id.homeFrameLayout).invalidate();
+        foldersRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onGetVerses(GetVersesResponse response) {
+        NewProjectTask task = new NewProjectTask(presenter, this, null);
+        NewProjectRequest request = new NewProjectRequest(CurrentSessionHolder.getInstance().getSignedInUser().getUser_id(), response.getVerses());
+        task.execute(request);
+    }
+
+    @Override
+    public void onNewProject(NewProjectResponse response) {
+        projectsRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

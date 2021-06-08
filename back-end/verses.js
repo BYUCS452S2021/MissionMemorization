@@ -23,7 +23,7 @@ const verseSchema = new mongoose.Schema({
 
 var verseParser = function(req) {  // , res, next
   // var versesRaw = req.query.verses;
-  var versesfiltered = req.split(',');  // versesRaw.split(',');
+  var versesfiltered = req.toString().split(',');  // versesRaw.split(',');
   let verselist = [];
 
   versesfiltered.forEach((verse, i) => { 
@@ -88,10 +88,12 @@ router.get("/abrev", async (req, res) => {
 // get a verse by url
 router.get("/url", async (req, res) => {
   try {
-    let verselist = verseParser(req.query.verses)
+
+    let verselist = verseParser(req.query.verses);
 
     let verse = await Verse.find({book_url:req.query.book, chapter:req.query.chapter, verse_num: {$in: verselist} });
-    return res.send(verse);
+    console.log(verse);
+    return res.send({verse});
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

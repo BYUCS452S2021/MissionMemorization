@@ -52,10 +52,9 @@ public class ServerFacade {
         return null;
     }
 
-    public GetVersesResponse getVerses(GetVersesRequest request, String urlPath) throws IOException {
-        //ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        //return clientCommunicator.doGet(urlPath, request, null, GetVersesResponse.class);
-        return null;
+    public GetVersesResponse getVerses(String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doGet(urlPath, null, GetVersesResponse.class);
     }
 
     public NewFolderResponse postNewFolder(NewFolderRequest request, String urlPath) throws IOException {
@@ -64,9 +63,8 @@ public class ServerFacade {
     }
 
     public NewProjectResponse postNewProject(NewProjectRequest request, String urlPath) throws IOException {
-        //ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        //return clientCommunicator.doPost(urlPath, request, null, NewProjectResponse.class);
-        return null;
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, NewProjectResponse.class);
     }
 
     public UpdateProjectResponse updateProject(UpdateProjectRequest request, String urlPath) throws IOException {

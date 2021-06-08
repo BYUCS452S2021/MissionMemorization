@@ -3,16 +3,17 @@ package com.example.missionmemorizeapp.view.tasks;
 import android.os.AsyncTask;
 
 import com.example.missionmemorizeapp.presenter.HomePresenter;
+import com.example.missionmemorizeapp.presenter.ProjectPresenter;
 import com.example.missionmemorizeapp.services.request.GetVersesRequest;
 import com.example.missionmemorizeapp.services.response.DeleteProjectResponse;
 import com.example.missionmemorizeapp.services.response.GetVersesResponse;
 
 public class GetVersesTask extends AsyncTask<GetVersesRequest, Void, GetVersesResponse> {
 
-    private final HomePresenter presenter;
+    private final ProjectPresenter presenter;
     private final GetVersesObserver observer;
 
-    public GetVersesTask(HomePresenter presenter, GetVersesObserver observer) {
+    public GetVersesTask(ProjectPresenter presenter, GetVersesObserver observer) {
         this.presenter = presenter;
         this.observer = observer;
     }

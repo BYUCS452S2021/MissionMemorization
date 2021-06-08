@@ -10,9 +10,9 @@ public class DeleteProjectTask extends AsyncTask<DeleteProjectRequest, Void, Del
 
     private final HomePresenter presenter;
     private final DeleteProjectObserver observer;
-    private int project_id;
+    private String project_id;
 
-    public DeleteProjectTask(HomePresenter presenter, DeleteProjectObserver observer, int project_id) {
+    public DeleteProjectTask(HomePresenter presenter, DeleteProjectObserver observer, String project_id) {
         this.presenter = presenter;
         this.observer = observer;
         this.project_id = project_id;
