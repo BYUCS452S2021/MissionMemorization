@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require("express");
 const router = express.Router();
+const { deleteAllProjectsInFolder } = require('./projects');
 
 const users = require("./users.js");
 const User = users.model;
@@ -31,7 +32,7 @@ const Folder = mongoose.model('Folder', folderSchema);
 
       var folder = await Folder.findOne({
         user_id: req.body.user_id,
-        name: req.body.folder_name
+        folder_name: req.body.folder_name
       })
 
       if(folder != null){
@@ -40,9 +41,9 @@ const Folder = mongoose.model('Folder', folderSchema);
         });
       } else {
         let folder = new Folder({
-            user: req.body.user_id,
+            user_id: req.body.user_id,
             folder_name: req.body.folder_name,
-        });
+        })
 
         await folder.save();
         return res.status(200).send({folder_id: folder._id});

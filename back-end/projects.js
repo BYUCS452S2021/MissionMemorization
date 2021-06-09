@@ -9,7 +9,7 @@ require("./users");
 const router = express.Router();
 
 const projectSchema = new mongoose.Schema({
-    folder_id: Number,
+    folder_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Folder' },
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     verse_ids : [{
         type: mongoose.Schema.Types.ObjectId, ref: 'Verse'
