@@ -19,7 +19,7 @@ const Folder = mongoose.model('Folder', folderSchema);
 
 
  // make a new folder
- router.post("/"/*, validUser*/, async (req, res) => {
+ router.post("/", validUser, async (req, res) => {
   try {
       // Make sure that the request includes user_id and folder_name,
       // otherwise return an error.
@@ -83,7 +83,7 @@ router.get("/all", validUser, async (req, res) => {
 });
 
 // Delete specified folder
-router.delete("/:folder_id"/*, validUser*/, async (req, res) => {
+router.delete("/:folder_id", validUser, async (req, res) => {
   try{
     let folder = await Folder.findOne({_id:req.params.folder_id});
     if(folder == null){
