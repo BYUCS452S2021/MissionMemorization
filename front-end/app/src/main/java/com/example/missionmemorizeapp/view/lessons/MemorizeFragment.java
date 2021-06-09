@@ -89,8 +89,9 @@ public class MemorizeFragment extends Fragment {
         correctButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UpdateProjectTask task = new UpdateProjectTask(presenter, project.getProject_id(), project, true);
-                UpdateProjectRequest request = new UpdateProjectRequest();
+                presenter.updateProjectInit(project, true);
+                UpdateProjectTask task = new UpdateProjectTask(presenter, project.getProject_id());
+                UpdateProjectRequest request = new UpdateProjectRequest(project.getNumAttempts(), project.getNumCorrect());
                 task.execute(request);
 
                 ResultsDialog resultsDialog = new ResultsDialog(true);
@@ -102,8 +103,9 @@ public class MemorizeFragment extends Fragment {
         incorrectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UpdateProjectTask task = new UpdateProjectTask(presenter, project.getProject_id(), project, false);
-                UpdateProjectRequest request = new UpdateProjectRequest();
+                presenter.updateProjectInit(project, false);
+                UpdateProjectTask task = new UpdateProjectTask(presenter, project.getProject_id());
+                UpdateProjectRequest request = new UpdateProjectRequest(project.getNumAttempts(), project.getNumCorrect());
                 task.execute(request);
 
                 ResultsDialog resultsDialog = new ResultsDialog(false);

@@ -2,14 +2,15 @@
 
 const express = require("express");
 const mongoose = require('mongoose');
-const { model } = require("./verses")
+require("./verses");
+require("./users");
 // const sqlite3 = require('sqlite3').verbose();
 
 const router = express.Router();
 
 const projectSchema = new mongoose.Schema({
     folder_id: Number,
-    user_id: String,
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     verse_ids : [{
         type: mongoose.Schema.Types.ObjectId, ref: 'Verse'
     }],
@@ -71,14 +72,32 @@ router.post('/:folder_id?', async(req, res) => {
 });
 
 //update project (once user gets project right or wrong)
-// TODO implement this part
+router.put('/:project_id', async(req, res) => {
+    try {
+        Project.findOneAndUpdate({_id: req.params.project_id},
+            {$set:{attempts:req.body.attempts, corrects:req.body.corrects}},
+                {new: true}, (err, doc) => {
+                    if (err) {
+                        return res.sendStatus(500);
+                    }
+        });
+
+        res.send({});
+    }
+    catch (error) {
+        consolse.log(error);
+        return res.sendStatus(500);
+    }
+});
 
 //delete project
 router.delete('/:project_id', async(req, res) => {
    try {
-        await Project.delete({
+        await Project.deleteOne({
             _id: req.params.project_id
         });
+
+       res.send({});
    }
    catch (error) {
        console.log(error);

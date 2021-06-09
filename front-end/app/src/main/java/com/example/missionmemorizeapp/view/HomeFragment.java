@@ -18,11 +18,13 @@ import com.example.missionmemorizeapp.model.CurrentSessionHolder;
 import com.example.missionmemorizeapp.model.Verse;
 import com.example.missionmemorizeapp.presenter.HomePresenter;
 import com.example.missionmemorizeapp.services.request.NewProjectRequest;
+import com.example.missionmemorizeapp.services.response.DeleteProjectResponse;
 import com.example.missionmemorizeapp.services.response.GetVersesResponse;
 import com.example.missionmemorizeapp.services.response.NewFolderResponse;
 import com.example.missionmemorizeapp.services.response.NewProjectResponse;
 import com.example.missionmemorizeapp.view.dialogs.AddFolderDialog;
 import com.example.missionmemorizeapp.view.dialogs.AddProjectDialog;
+import com.example.missionmemorizeapp.view.tasks.DeleteProjectTask;
 import com.example.missionmemorizeapp.view.tasks.GetVersesTask;
 import com.example.missionmemorizeapp.view.tasks.NewFolderTask;
 import com.example.missionmemorizeapp.view.tasks.NewProjectTask;
@@ -34,7 +36,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObserver, GetVersesTask.GetVersesObserver,
-        NewProjectTask.NewProjectObserver, HomePresenter.View {
+        NewProjectTask.NewProjectObserver, DeleteProjectTask.DeleteProjectObserver, HomePresenter.View {
 
     RecyclerView projectsRecyclerView;
     LinearLayoutManager projectLayoutManager;
@@ -72,7 +74,8 @@ public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObs
                 projectLayoutManager.getOrientation());
         projectsRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        projectsRecyclerViewAdapter = new ProjectsRecyclerViewAdapter(CurrentSessionHolder.getInstance().getRootProjectsOfUser(), getContext(), (MainActivity) getActivity());
+        projectsRecyclerViewAdapter = new ProjectsRecyclerViewAdapter(
+                CurrentSessionHolder.getInstance().getRootProjectsOfUser(), getContext(), (MainActivity) getActivity(), this, presenter);
         projectsRecyclerView.setAdapter(projectsRecyclerViewAdapter);
 
         addNewProjectButton = view.findViewById(R.id.addNewProjectButton);
@@ -128,6 +131,11 @@ public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObs
 
     @Override
     public void onNewProject(NewProjectResponse response) {
+        projectsRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDeleteProjectResult(DeleteProjectResponse response) {
         projectsRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

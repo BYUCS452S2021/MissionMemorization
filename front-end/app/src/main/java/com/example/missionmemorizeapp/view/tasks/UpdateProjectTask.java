@@ -13,21 +13,17 @@ public class UpdateProjectTask extends AsyncTask<UpdateProjectRequest, Void, Upd
 
     private final MemorizePresenter presenter;
     private String project_id;
-    private Project project;
-    private boolean correct;
 
-    public UpdateProjectTask(MemorizePresenter presenter, String project_id, Project project, boolean correct) {
+    public UpdateProjectTask(MemorizePresenter presenter, String project_id) {
         this.presenter = presenter;
         this.project_id = project_id;
-        this.project = project;
-        this.correct = correct;
     }
 
     @Override
     protected UpdateProjectResponse doInBackground(UpdateProjectRequest... updateProjectRequests) {
         UpdateProjectResponse response = null;
         try {
-            response = presenter.updateProject(updateProjectRequests[0], project_id, project, correct);
+            response = presenter.updateProject(updateProjectRequests[0], project_id);
         }
         catch (Exception e) {
             response = new UpdateProjectResponse("deletion failed");

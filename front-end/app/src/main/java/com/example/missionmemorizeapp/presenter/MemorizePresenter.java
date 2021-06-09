@@ -12,14 +12,14 @@ public class MemorizePresenter {
     public MemorizePresenter() {
     }
 
-    public UpdateProjectResponse updateProject(UpdateProjectRequest request, String project_id, Project project, boolean correct) throws IOException {
+    public UpdateProjectResponse updateProject(UpdateProjectRequest request, String project_id) throws IOException {
         UpdateProjectService updateProjectService = new UpdateProjectService(project_id);
-        UpdateProjectResponse response = updateProjectService.updateProject(request);
+        return updateProjectService.updateProject(request);
+    }
 
+    public void updateProjectInit(Project project, boolean correct) {
         project.setNumAttempts(project.getNumAttempts() + 1);
         if (correct)
             project.setNumCorrect(project.getNumCorrect() + 1);
-
-        return response;
     }
 }

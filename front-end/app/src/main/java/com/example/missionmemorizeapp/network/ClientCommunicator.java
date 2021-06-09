@@ -71,6 +71,9 @@ class ClientCommunicator {
     }
 
     <T> T doPut(String urlPath, final Object requestInfo, Map<String, String> headers, Class<T> returnType) throws IOException {
+        headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+
         RequestStrategy requestStrategy = new RequestStrategy() {
             @Override
             public void setRequestMethod(HttpURLConnection connection) throws IOException {

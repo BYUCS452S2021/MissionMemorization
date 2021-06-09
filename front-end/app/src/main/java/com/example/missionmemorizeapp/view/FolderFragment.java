@@ -20,9 +20,11 @@ import com.example.missionmemorizeapp.model.Folder;
 import com.example.missionmemorizeapp.model.Verse;
 import com.example.missionmemorizeapp.presenter.FolderPresenter;
 import com.example.missionmemorizeapp.services.request.NewProjectRequest;
+import com.example.missionmemorizeapp.services.response.DeleteProjectResponse;
 import com.example.missionmemorizeapp.services.response.GetVersesResponse;
 import com.example.missionmemorizeapp.services.response.NewProjectResponse;
 import com.example.missionmemorizeapp.view.dialogs.AddProjectDialog;
+import com.example.missionmemorizeapp.view.tasks.DeleteProjectTask;
 import com.example.missionmemorizeapp.view.tasks.GetVersesTask;
 import com.example.missionmemorizeapp.view.tasks.NewProjectTask;
 
@@ -33,7 +35,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class FolderFragment extends Fragment implements GetVersesTask.GetVersesObserver,
-        NewProjectTask.NewProjectObserver{
+        NewProjectTask.NewProjectObserver, DeleteProjectTask.DeleteProjectObserver {
 
     TextView folderName;
 
@@ -72,7 +74,8 @@ public class FolderFragment extends Fragment implements GetVersesTask.GetVersesO
                 projectLayoutManager.getOrientation());
         projectsRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        projectsRecyclerViewAdapter = new ProjectsRecyclerViewAdapter(folder.getProjectsInFolder(), getContext(), (MainActivity) getActivity());
+        projectsRecyclerViewAdapter = new ProjectsRecyclerViewAdapter(
+                folder.getProjectsInFolder(), getContext(), (MainActivity) getActivity(), this, presenter);
         projectsRecyclerView.setAdapter(projectsRecyclerViewAdapter);
 
         addNewProjectButton = view.findViewById(R.id.addNewProjectButton);
@@ -101,6 +104,11 @@ public class FolderFragment extends Fragment implements GetVersesTask.GetVersesO
 
     @Override
     public void onNewProject(NewProjectResponse response) {
+        projectsRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDeleteProjectResult(DeleteProjectResponse response) {
         projectsRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

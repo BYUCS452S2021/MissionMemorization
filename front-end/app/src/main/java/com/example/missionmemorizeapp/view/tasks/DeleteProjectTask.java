@@ -3,16 +3,17 @@ package com.example.missionmemorizeapp.view.tasks;
 import android.os.AsyncTask;
 
 import com.example.missionmemorizeapp.presenter.HomePresenter;
+import com.example.missionmemorizeapp.presenter.ProjectPresenter;
 import com.example.missionmemorizeapp.services.request.DeleteProjectRequest;
 import com.example.missionmemorizeapp.services.response.DeleteProjectResponse;
 
 public class DeleteProjectTask extends AsyncTask<DeleteProjectRequest, Void, DeleteProjectResponse> {
 
-    private final HomePresenter presenter;
+    private final ProjectPresenter presenter;
     private final DeleteProjectObserver observer;
     private String project_id;
 
-    public DeleteProjectTask(HomePresenter presenter, DeleteProjectObserver observer, String project_id) {
+    public DeleteProjectTask(ProjectPresenter presenter, DeleteProjectObserver observer, String project_id) {
         this.presenter = presenter;
         this.observer = observer;
         this.project_id = project_id;
