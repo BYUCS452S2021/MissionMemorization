@@ -7,10 +7,7 @@ const User = users.model;
 const validUser = users.valid;
 
 const folderSchema = new mongoose.Schema({
-  // user: {
-  //   typer: mongoose.Schema.ObjectId,
-  //   ref: 'User',
-  // },
+  user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   folder_name: String,
   created: {
     type: Date,
@@ -22,15 +19,34 @@ const Folder = mongoose.model('Folder', folderSchema);
 
 
  // make a new folder
- router.post("/", validUser, async (req, res) => {
-  // check parameters
+ router.post("/"/*, validUser*/, async (req, res) => {
   try {
-      let folder = new Folder({
-          user: req.user,
-          folder_name: req.body.folder_name,
-      });
-      await folder.save();
-      return res.status(200).send({folder_id: folder._id});
+      // Make sure that the request includes user_id and folder_name,
+      // otherwise return an error.
+      if (!req.body.user_id || !req.body.folder_name) {
+        return res.status(400).send({
+          message: "Must include user_id and folder_name in request"
+        });
+      }
+
+      var folder = await Folder.findOne({
+        user_id: req.body.user_id,
+        name: req.body.folder_name
+      })
+
+      if(folder != null){
+        return res.status(400).send({
+          message: "Folder already exists for this user"
+        });
+      } else {
+        let folder = new Folder({
+            user: req.body.user_id,
+            folder_name: req.body.folder_name,
+        });
+
+        await folder.save();
+        return res.status(200).send({folder_id: folder._id});
+      }
   } catch (error) {
       console.log(error);
       return res.status(500).send({
@@ -41,14 +57,49 @@ const Folder = mongoose.model('Folder', folderSchema);
 
 // Retrieve all of a users folders
 router.get("/all", validUser, async (req, res) => {
+  if (!req.body.user_id) {
+    return res.status(400).send({
+      message: "Must include user_id in request"
+    });
+  }
+
   try {
     let folders = await Folder.find({
-      user: req.user,
+      user: req.body.user_id,
     }).sort({
       created: -1
     }).populate('user');
-    return res.send(folders);    
+
+    let projects;
+    for (const f of folders){
+      projects.push(getAllProjectsInFolder(f._id));
+    }
+
+    return res.status(200).send({folders: folders, projects: projects});  
   } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+// Delete specified folder
+router.delete("/:folder_id"/*, validUser*/, async (req, res) => {
+  try{
+    let folder = await Folder.findOne({_id:req.params.folder_id});
+    if(folder == null){
+      return res.status(400).send({
+        message: "Folder does not exist"
+      })
+    }
+
+    await deleteAllProjectsInFolder(folder._id);
+
+    await Folder.deleteOne({_id:folder._id});
+
+    return res.status(200).send({
+      message: "Folder deleted successfully"
+    });
+  } catch {
     console.log(error);
     return res.sendStatus(500);
   }
