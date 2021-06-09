@@ -41,6 +41,14 @@ function getAllProjectsInFolder(folder_id) {
     }).exec();
 }
 
+function deleteAllProjectsInFolder(folder_id) {
+    Project.deleteMany({ folder_id: folder_id }).then(function(){
+        console.log("Folder deleted");
+    }).catch(function(error){
+        console.log(error);
+    });
+}
+
 
 //add new project to user
 router.post('/:folder_id?', async(req, res) => {
@@ -108,5 +116,6 @@ router.delete('/:project_id', async(req, res) => {
 module.exports = {
     routes: router,
     getProjects: getAllRootProjects,
-    getProjectsInFolder: getAllProjectsInFolder
+    getProjectsInFolder: getAllProjectsInFolder,
+    deleteAllProjectsInFolder: deleteAllProjectsInFolder
   };
