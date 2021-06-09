@@ -10,7 +10,7 @@ public class Project {
     public int attempts;
     public int corrects;
 
-    private List<Verse> verses = new ArrayList<>();
+    private List<Verse> verse_ids = new ArrayList<>();
 
     public Project() {}
 
@@ -19,7 +19,7 @@ public class Project {
     }
 
     public List<Verse> getVersesInProject() {
-        return verses;
+        return verse_ids;
     }
 
     public float getPercentage() {
@@ -30,9 +30,9 @@ public class Project {
 
     public String getProjectName() {
         StringBuilder name = new StringBuilder();
-        for (int i = 0; i < verses.size(); i++) {
-            name.append(verses.get(i).formatReference());
-            if (i != verses.size() - 1)
+        for (int i = 0; i < verse_ids.size(); i++) {
+            name.append(verse_ids.get(i).formatReference());
+            if (i != verse_ids.size() - 1)
                 name.append(",");
         }
         return name.toString();
@@ -40,7 +40,7 @@ public class Project {
 
     public String getProjectVerseString() {
         StringBuilder body = new StringBuilder();
-        for (Verse verse : verses) {
+        for (Verse verse : verse_ids) {
             body.append(verse.getText());
         }
         return body.toString();

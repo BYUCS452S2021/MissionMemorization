@@ -7,21 +7,21 @@ import java.util.List;
 public class NewProjectRequest {
 
     public String user_id;
-    public List<Verse> verses;
+    public List<String> verse_ids;
 
     public NewProjectRequest() {
     }
 
-    public NewProjectRequest(String user_id, List<Verse> verses) {
+    public NewProjectRequest(String user_id, List<String> verse_ids) {
         this.user_id = user_id;
-        this.verses = verses;
+        this.verse_ids = verse_ids;
     }
 
     public String getUser_id() {
         return user_id;
     }
 
-    public List<Verse> getVerses() {
-        return verses;
+    public List<String> getVerses() {
+        return verse_ids;
     }
 }

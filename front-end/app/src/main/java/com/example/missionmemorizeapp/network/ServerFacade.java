@@ -47,9 +47,8 @@ public class ServerFacade {
     }
 
     public DeleteProjectResponse deleteProject(DeleteProjectRequest request, String urlPath) throws IOException {
-        //ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        //return clientCommunicator.doDelete(urlPath, request, null, DeleteProjectResponse.class);
-        return null;
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doDelete(urlPath, null, DeleteProjectResponse.class);
     }
 
     public GetVersesResponse getVerses(String urlPath) throws IOException {
@@ -68,8 +67,7 @@ public class ServerFacade {
     }
 
     public UpdateProjectResponse updateProject(UpdateProjectRequest request, String urlPath) throws IOException {
-        //ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        //return clientCommunicator.doPut(urlPath, request, null, UpdateProjectResponse.class);
-        return null;
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPut(urlPath, request, null, UpdateProjectResponse.class);
     }
 }

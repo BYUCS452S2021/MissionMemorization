@@ -44,17 +44,6 @@ public abstract class ProjectPresenter {
         return response;
     }
 
-    public UpdateProjectResponse updateProject(UpdateProjectRequest request, int project_id, Project project, boolean correct) throws IOException {
-        UpdateProjectService updateProjectService = new UpdateProjectService(project_id);
-        UpdateProjectResponse response = updateProjectService.updateProject(request);
-
-        project.setNumAttempts(project.getNumAttempts() + 1);
-        if (correct)
-            project.setNumCorrect(project.getNumCorrect() + 1);
-
-        return response;
-    }
-
     public GetVersesResponse getVerses(GetVersesRequest request) throws IOException {
         GetVersesService getVersesService = new GetVersesService();
         GetVersesResponse response = getVersesService.getVerses(request);
@@ -62,13 +51,13 @@ public abstract class ProjectPresenter {
         return response;
     }
 
-    public NewProjectResponse newProject(NewProjectRequest request, Integer folder_id) throws IOException {
+    public NewProjectResponse newProject(NewProjectRequest request, Integer folder_id, List<Verse> verses) throws IOException {
         NewProjectService newProjectService = new NewProjectService(folder_id);
         NewProjectResponse response = newProjectService.postProject(request);
 
 
         Project newProject = new Project();
-        newProject.getVersesInProject().addAll(request.getVerses());
+        newProject.getVersesInProject().addAll(verses);
         newProject.setNumCorrect(0);
         newProject.setNumAttempts(0);
         newProject.setProject_id(response.getProject_id());

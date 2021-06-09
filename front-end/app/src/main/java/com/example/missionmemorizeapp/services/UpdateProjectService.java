@@ -14,7 +14,7 @@ public class UpdateProjectService {
     private String pathWithProjectID;
     private static final String URL_PATH = "/api/project/";
 
-    public UpdateProjectService(int project_id) {
+    public UpdateProjectService(String project_id) {
         serverFacade = new ServerFacade();
         this.pathWithProjectID = URL_PATH + project_id;
     }

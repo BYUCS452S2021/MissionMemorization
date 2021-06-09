@@ -14,8 +14,11 @@ import android.widget.TextView;
 
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.Project;
+import com.example.missionmemorizeapp.presenter.MemorizePresenter;
+import com.example.missionmemorizeapp.services.request.UpdateProjectRequest;
 import com.example.missionmemorizeapp.view.dialogs.ProfileInfoDialog;
 import com.example.missionmemorizeapp.view.dialogs.ResultsDialog;
+import com.example.missionmemorizeapp.view.tasks.UpdateProjectTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,7 @@ public class MemorizeFragment extends Fragment {
     private Project project;
 
     private List<Pair> pairs = new ArrayList<>();
+    private MemorizePresenter presenter = new MemorizePresenter();
 
     public MemorizeFragment(Project project) {
         this.project = project;
@@ -85,8 +89,10 @@ public class MemorizeFragment extends Fragment {
         correctButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO UpdateProjectTask
-                // set bundle and bring up ResultsDialog
+                UpdateProjectTask task = new UpdateProjectTask(presenter, project.getProject_id(), project, true);
+                UpdateProjectRequest request = new UpdateProjectRequest();
+                task.execute(request);
+
                 ResultsDialog resultsDialog = new ResultsDialog(true);
                 resultsDialog.show(getChildFragmentManager(), "MyFragment");
             }
@@ -96,8 +102,10 @@ public class MemorizeFragment extends Fragment {
         incorrectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO UpdateProjectTask
-                // set bundle and bring up ResultsDialog
+                UpdateProjectTask task = new UpdateProjectTask(presenter, project.getProject_id(), project, false);
+                UpdateProjectRequest request = new UpdateProjectRequest();
+                task.execute(request);
+
                 ResultsDialog resultsDialog = new ResultsDialog(false);
                 resultsDialog.show(getChildFragmentManager(), "MyFragment");
             }

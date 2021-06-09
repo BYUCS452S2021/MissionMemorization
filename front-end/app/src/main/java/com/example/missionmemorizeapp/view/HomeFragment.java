@@ -116,8 +116,13 @@ public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObs
 
     @Override
     public void onGetVerses(GetVersesResponse response) {
-        NewProjectTask task = new NewProjectTask(presenter, this, null);
-        NewProjectRequest request = new NewProjectRequest(CurrentSessionHolder.getInstance().getSignedInUser().getUser_id(), response.getVerses());
+        List<String> verses_ids = new ArrayList<>();
+        for (Verse verse : response.getVerses()) {
+            verses_ids.add(verse._id);
+        }
+
+        NewProjectTask task = new NewProjectTask(presenter, this, null, response.getVerses());
+        NewProjectRequest request = new NewProjectRequest(CurrentSessionHolder.getInstance().getSignedInUser().getUser_id(), verses_ids);
         task.execute(request);
     }
 

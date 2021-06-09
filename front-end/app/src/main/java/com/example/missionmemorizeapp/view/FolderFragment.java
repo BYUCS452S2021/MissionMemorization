@@ -89,8 +89,13 @@ public class FolderFragment extends Fragment implements GetVersesTask.GetVersesO
 
     @Override
     public void onGetVerses(GetVersesResponse response) {
-        NewProjectTask task = new NewProjectTask(presenter, this, folder.folder_id);
-        NewProjectRequest request = new NewProjectRequest(CurrentSessionHolder.getInstance().getSignedInUser().getUser_id(), response.getVerses());
+        List<String> verses_ids = new ArrayList<>();
+        for (Verse verse : response.getVerses()) {
+            verses_ids.add(verse._id);
+        }
+
+        NewProjectTask task = new NewProjectTask(presenter, this, folder.folder_id, response.getVerses());
+        NewProjectRequest request = new NewProjectRequest(CurrentSessionHolder.getInstance().getSignedInUser().getUser_id(), verses_ids);
         task.execute(request);
     }
 

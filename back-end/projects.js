@@ -10,17 +10,8 @@ const router = express.Router();
 const projectSchema = new mongoose.Schema({
     folder_id: Number,
     user_id: String,
-    verses : [{
-        verse_id: Number,
-        lang: String,
-        book_name: String,
-        book_abrev: String,
-        volume: String,
-        volume_url: String,
-        book_url: String,
-        chapter: Number,
-        verse_num: Number,
-        text: String
+    verse_ids : [{
+        type: mongoose.Schema.Types.ObjectId, ref: 'Verse'
     }],
     attempts: Number,
     corrects: Number
@@ -37,7 +28,9 @@ function getAllRootProjects(user_id) {
     return Project.find({
         user_id: user_id,
         folder_id: null
-    }).exec();
+    })
+        .populate('verse_ids')
+        .exec();
 }
 
 //I'm not sure who will be calling this
@@ -51,10 +44,10 @@ function getAllProjectsInFolder(folder_id) {
 //add new project to user
 router.post('/:folder_id?', async(req, res) => {
 
-    if (!req.body.user_id || !req.body.verses) {
+    if (!req.body.user_id || !req.body.verse_ids) {
         console.log("giving 400 error");
         return res.status(400).send({
-            message: "user_id and at least one verse_id is required"
+            message: "user_id and at least one verse is required"
         });
     }
 
@@ -64,8 +57,7 @@ router.post('/:folder_id?', async(req, res) => {
             user_id: req.body.user_id,
             attempts: 0,
             corrects: 0,
-            // I'm not sure if this will work
-            verses: req.body.verses
+            verse_ids: req.body.verse_ids
         });
         await project.save();
 

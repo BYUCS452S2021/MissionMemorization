@@ -4,18 +4,19 @@ import android.os.AsyncTask;
 
 import com.example.missionmemorizeapp.model.Project;
 import com.example.missionmemorizeapp.presenter.HomePresenter;
+import com.example.missionmemorizeapp.presenter.MemorizePresenter;
 import com.example.missionmemorizeapp.services.request.UpdateProjectRequest;
 import com.example.missionmemorizeapp.services.response.DeleteProjectResponse;
 import com.example.missionmemorizeapp.services.response.UpdateProjectResponse;
 
 public class UpdateProjectTask extends AsyncTask<UpdateProjectRequest, Void, UpdateProjectResponse> {
 
-    private final HomePresenter presenter;
-    private int project_id;
+    private final MemorizePresenter presenter;
+    private String project_id;
     private Project project;
     private boolean correct;
 
-    public UpdateProjectTask(HomePresenter presenter, int project_id, Project project, boolean correct) {
+    public UpdateProjectTask(MemorizePresenter presenter, String project_id, Project project, boolean correct) {
         this.presenter = presenter;
         this.project_id = project_id;
         this.project = project;
