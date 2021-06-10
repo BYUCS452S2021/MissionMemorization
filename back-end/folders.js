@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const express = require("express");
 const router = express.Router();
 const { deleteAllProjectsInFolder } = require('./projects');
+const { getProjectsInFolder } = require('./projects');
 
 const users = require("./users.js");
 const User = users.model;
@@ -66,14 +67,15 @@ router.get("/all", validUser, async (req, res) => {
 
   try {
     let folders = await Folder.find({
-      user: req.body.user_id,
+      user_id: req.body.user_id,
     }).sort({
       created: -1
     }).populate('user');
 
-    let projects;
+    let projects = [];
     for (const f of folders){
-      projects.push(getAllProjectsInFolder(f._id));
+      var projectsInFolder = await getProjectsInFolder(f._id);
+      projects.push(projectsInFolder);
     }
 
     return res.status(200).send({folders: folders, projects: projects});  
