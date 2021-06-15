@@ -18,12 +18,14 @@ import com.example.missionmemorizeapp.model.CurrentSessionHolder;
 import com.example.missionmemorizeapp.model.Verse;
 import com.example.missionmemorizeapp.presenter.HomePresenter;
 import com.example.missionmemorizeapp.services.request.NewProjectRequest;
+import com.example.missionmemorizeapp.services.response.DeleteFolderResponse;
 import com.example.missionmemorizeapp.services.response.DeleteProjectResponse;
 import com.example.missionmemorizeapp.services.response.GetVersesResponse;
 import com.example.missionmemorizeapp.services.response.NewFolderResponse;
 import com.example.missionmemorizeapp.services.response.NewProjectResponse;
 import com.example.missionmemorizeapp.view.dialogs.AddFolderDialog;
 import com.example.missionmemorizeapp.view.dialogs.AddProjectDialog;
+import com.example.missionmemorizeapp.view.tasks.DeleteFolderTask;
 import com.example.missionmemorizeapp.view.tasks.DeleteProjectTask;
 import com.example.missionmemorizeapp.view.tasks.GetVersesTask;
 import com.example.missionmemorizeapp.view.tasks.NewFolderTask;
@@ -36,7 +38,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObserver, GetVersesTask.GetVersesObserver,
-        NewProjectTask.NewProjectObserver, DeleteProjectTask.DeleteProjectObserver, HomePresenter.View {
+        NewProjectTask.NewProjectObserver, DeleteProjectTask.DeleteProjectObserver, HomePresenter.View,
+        DeleteFolderTask.DeleteFolderObserver {
 
     RecyclerView projectsRecyclerView;
     LinearLayoutManager projectLayoutManager;
@@ -97,7 +100,7 @@ public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObs
         foldersRecyclerView.addItemDecoration(dividerItemDecoration);
 
         foldersRecyclerViewAdapter = new FoldersRecyclerViewAdapter(CurrentSessionHolder.getInstance().getFoldersOfUser(),
-                getContext(), (MainActivity) getActivity());
+                getContext(), (MainActivity) getActivity(), this, presenter);
         foldersRecyclerView.setAdapter(foldersRecyclerViewAdapter);
 
         addNewFolderButton = view.findViewById(R.id.addNewFolderButton);
@@ -137,5 +140,10 @@ public class HomeFragment extends Fragment implements NewFolderTask.NewFolderObs
     @Override
     public void onDeleteProjectResult(DeleteProjectResponse response) {
         projectsRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDeleteFolderResult(DeleteFolderResponse response) {
+        foldersRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

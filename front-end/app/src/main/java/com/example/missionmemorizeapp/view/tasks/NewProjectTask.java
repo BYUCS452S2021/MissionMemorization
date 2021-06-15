@@ -15,10 +15,10 @@ public class NewProjectTask extends AsyncTask<NewProjectRequest, Void, NewProjec
 
     private final ProjectPresenter presenter;
     private final NewProjectObserver observer;
-    private Integer folder_id;
+    private String folder_id;
     private List<Verse> verses;
 
-    public NewProjectTask(ProjectPresenter presenter, NewProjectObserver observer, Integer folder_id, List<Verse> verses) {
+    public NewProjectTask(ProjectPresenter presenter, NewProjectObserver observer, String folder_id, List<Verse> verses) {
         this.presenter = presenter;
         this.observer = observer;
         if (folder_id != null)

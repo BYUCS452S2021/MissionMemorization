@@ -44,7 +44,7 @@ public class LoginPresenter {
         CurrentSessionHolder.getInstance().getFoldersOfUser().add(newFolder);*/
         CurrentSessionHolder.getInstance().setSignedInUser(response.getUser());
         CurrentSessionHolder.getInstance().setRootProjectsOfUser(response.getProjects());
-        //CurrentSessionHolder.getInstance().setFoldersOfUser(response.getFolders());
+        CurrentSessionHolder.getInstance().setFoldersOfUser(response.getFolders());
 
         return response;
     }

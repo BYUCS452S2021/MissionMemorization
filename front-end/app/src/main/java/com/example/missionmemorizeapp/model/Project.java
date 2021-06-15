@@ -1,6 +1,7 @@
 package com.example.missionmemorizeapp.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Project {
@@ -29,19 +30,25 @@ public class Project {
     }
 
     public String getProjectName() {
-        StringBuilder name = new StringBuilder();
-        for (int i = 0; i < verse_ids.size(); i++) {
-            name.append(verse_ids.get(i).formatReference());
-            if (i != verse_ids.size() - 1)
+        if (verse_ids.size() > 0) {
+            StringBuilder name = new StringBuilder();
+            name.append(verse_ids.get(0).formatReference());
+            if (verse_ids.size() > 1)
                 name.append(",");
+            for (int i = 1; i < verse_ids.size(); i++) {
+                name.append(verse_ids.get(i).verse_num);
+                if (i != verse_ids.size() - 1)
+                    name.append(",");
+            }
+            return name.toString();
         }
-        return name.toString();
+        else return "";
     }
 
     public String getProjectVerseString() {
         StringBuilder body = new StringBuilder();
         for (Verse verse : verse_ids) {
-            body.append(verse.getText());
+            body.append(verse.getText() + " ");
         }
         return body.toString();
     }

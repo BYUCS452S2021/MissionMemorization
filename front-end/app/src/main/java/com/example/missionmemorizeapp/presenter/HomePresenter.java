@@ -47,20 +47,20 @@ public class HomePresenter extends ProjectPresenter{
         this.view = view;
     }
 
-    public DeleteFolderResponse deleteFolder(DeleteFolderRequest request, int folder_id) throws IOException {
-        DeleteFolderService deleteFolderService = new DeleteFolderService(folder_id);
-        DeleteFolderResponse response = deleteFolderService.deleteFolder(request);
+    public DeleteFolderResponse deleteFolder(DeleteFolderRequest request, String folder_id) throws IOException {
+        //DeleteFolderService deleteFolderService = new DeleteFolderService(folder_id);
+        //DeleteFolderResponse response = deleteFolderService.deleteFolder(request);
 
         List<Folder> folders = CurrentSessionHolder.getInstance().getFoldersOfUser();
         Folder folderToDelete = new Folder();
         for (Folder folder : folders) {
-            if (folder.getFolder_id() == folder_id)
+            if (folder.getFolder_id().equals(folder_id))
                 folderToDelete = folder;
         }
 
         folders.remove(folderToDelete);
 
-        return response;
+        return null;
     }
 
 

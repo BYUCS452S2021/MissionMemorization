@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.Folder;
 import com.example.missionmemorizeapp.model.Project;
+import com.example.missionmemorizeapp.presenter.HomePresenter;
+import com.example.missionmemorizeapp.presenter.ProjectPresenter;
+import com.example.missionmemorizeapp.services.request.DeleteFolderRequest;
 import com.example.missionmemorizeapp.view.signinupviews.LoginFragment;
+import com.example.missionmemorizeapp.view.tasks.DeleteFolderTask;
 
 import java.util.List;
 
@@ -24,11 +28,15 @@ public class FoldersRecyclerViewAdapter extends RecyclerView.Adapter<FoldersRecy
     Context context;
 
     MainActivity activity;
+    DeleteFolderTask.DeleteFolderObserver observer;
+    HomePresenter presenter;
 
-    public FoldersRecyclerViewAdapter(List<Folder> folders, Context context, MainActivity activity) {
+    public FoldersRecyclerViewAdapter(List<Folder> folders, Context context, MainActivity activity, DeleteFolderTask.DeleteFolderObserver observer, HomePresenter presenter) {
         this.folders = folders;
         this.context = context;
         this.activity = activity;
+        this.observer = observer;
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -67,7 +75,9 @@ public class FoldersRecyclerViewAdapter extends RecyclerView.Adapter<FoldersRecy
             trashImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO create async task that deletes project
+                    DeleteFolderTask task = new DeleteFolderTask(presenter, observer, folder._id);
+                    DeleteFolderRequest request = new DeleteFolderRequest();
+                    task.execute(request);
                 }
             });
             projectRowLayout.setOnClickListener(new View.OnClickListener() {

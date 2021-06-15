@@ -13,7 +13,7 @@ public class DeleteFolderService {
     private String pathWithFolderID;
     private static final String URL_PATH = "/api/folder/";
 
-    public DeleteFolderService(int folder_id) {
+    public DeleteFolderService(String folder_id) {
         serverFacade = new ServerFacade();
         this.pathWithFolderID = URL_PATH + folder_id;
     }

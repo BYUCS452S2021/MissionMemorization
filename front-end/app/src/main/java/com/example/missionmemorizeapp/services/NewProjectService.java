@@ -14,7 +14,7 @@ public class NewProjectService {
     private String pathWithFolderID;
     private static final String URL_PATH = "/api/project/";
 
-    public NewProjectService(Integer folder_id) {
+    public NewProjectService(String folder_id) {
         serverFacade = new ServerFacade();
         if (folder_id != null)
             this.pathWithFolderID = URL_PATH + folder_id;

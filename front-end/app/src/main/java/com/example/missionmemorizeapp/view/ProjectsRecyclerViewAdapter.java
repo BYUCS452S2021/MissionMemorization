@@ -14,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.missionmemorizeapp.R;
 import com.example.missionmemorizeapp.model.Project;
+import com.example.missionmemorizeapp.model.Verse;
 import com.example.missionmemorizeapp.presenter.ProjectPresenter;
 import com.example.missionmemorizeapp.services.request.DeleteProjectRequest;
 import com.example.missionmemorizeapp.view.dialogs.ProjectInfoDialog;
 import com.example.missionmemorizeapp.view.lessons.MemorizeFragment;
 import com.example.missionmemorizeapp.view.tasks.DeleteProjectTask;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ProjectsRecyclerViewAdapter extends RecyclerView.Adapter<ProjectsRecyclerViewAdapter.ProjectHolder> {
@@ -72,6 +75,13 @@ public class ProjectsRecyclerViewAdapter extends RecyclerView.Adapter<ProjectsRe
         }
 
         void bindProject(final Project project) {
+            Collections.sort(project.getVersesInProject(), new Comparator<Verse>() {
+                @Override
+                public int compare(Verse o1, Verse o2) {
+                    return o1.verse_num.compareTo(o2.verse_num);
+                }
+            });
+
             titleTextView.setText(project.getProjectName());
             trashImageView.setOnClickListener(new View.OnClickListener() {
                 @Override

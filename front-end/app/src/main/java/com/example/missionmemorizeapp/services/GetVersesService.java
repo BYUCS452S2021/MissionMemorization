@@ -11,7 +11,7 @@ import java.io.IOException;
 public class GetVersesService {
 
     public ServerFacade serverFacade;
-    private static String urlPath = "/api/verse/url";
+    private String urlPath = "/api/verse/url";
 
     public GetVersesService() {
         serverFacade = new ServerFacade();

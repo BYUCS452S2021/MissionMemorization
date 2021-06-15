@@ -4,12 +4,15 @@ const express = require("express");
 const mongoose = require('mongoose');
 require("./verses");
 require("./users");
+const folders = require("./folders");
+const Folder = folders.model;
 // const sqlite3 = require('sqlite3').verbose();
 
 const router = express.Router();
 
 const projectSchema = new mongoose.Schema({
-    folder_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Folder' },
+
+    folder_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Folder'},
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     verse_ids : [{
         type: mongoose.Schema.Types.ObjectId, ref: 'Verse'
@@ -34,11 +37,23 @@ function getAllRootProjects(user_id) {
         .exec();
 }
 
+function getAllFolders(user_id) {
+
+    return Folder.find({
+        user_id: user_id
+    }).exec();
+}
+
 //I'm not sure who will be calling this
-function getAllProjectsInFolder(folder_id) {
+async function getAllProjectsInFolder(folder_id) {
     return Project.find({
         folder_id: folder_id
-    }).exec();
+    })
+        .populate('verse_ids')
+        .exec(function(err, data) {
+            console.log("data is " + data);
+            return data;
+        });
 }
 
 function deleteAllProjectsInFolder(folder_id) {
@@ -115,7 +130,9 @@ router.delete('/:project_id', async(req, res) => {
 
 module.exports = {
     routes: router,
+    Project,
     getProjects: getAllRootProjects,
     getProjectsInFolder: getAllProjectsInFolder,
-    deleteAllProjectsInFolder: deleteAllProjectsInFolder
+    deleteAllProjectsInFolder,
+    getAllFolders
   };

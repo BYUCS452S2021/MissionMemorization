@@ -41,9 +41,8 @@ public class ServerFacade {
     }
 
     public DeleteFolderResponse deleteFolder(DeleteFolderRequest request, String urlPath) throws IOException {
-        //ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        //return clientCommunicator.doDelete(urlPath, request, null, DeleteFolderResponse.class);
-        return null;
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doDelete(urlPath, null, DeleteFolderResponse.class);
     }
 
     public DeleteProjectResponse deleteProject(DeleteProjectRequest request, String urlPath) throws IOException {

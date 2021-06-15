@@ -18,6 +18,8 @@ import com.example.missionmemorizeapp.services.response.NewProjectResponse;
 import com.example.missionmemorizeapp.services.response.UpdateProjectResponse;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public abstract class ProjectPresenter {
@@ -51,7 +53,7 @@ public abstract class ProjectPresenter {
         return response;
     }
 
-    public NewProjectResponse newProject(NewProjectRequest request, Integer folder_id, List<Verse> verses) throws IOException {
+    public NewProjectResponse newProject(NewProjectRequest request, String folder_id, List<Verse> verses) throws IOException {
         NewProjectService newProjectService = new NewProjectService(folder_id);
         NewProjectResponse response = newProjectService.postProject(request);
 
@@ -67,7 +69,7 @@ public abstract class ProjectPresenter {
         }
         else {
             for (Folder folder : CurrentSessionHolder.getInstance().getFoldersOfUser()) {
-                if (folder.getFolder_id() == folder_id) {
+                if (folder.getFolder_id().equals(folder_id)) {
                     folder.getProjectsInFolder().add(newProject);
                     break;
                 }

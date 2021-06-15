@@ -1,12 +1,14 @@
 package com.example.missionmemorizeapp.model;
 
+import java.util.Comparator;
+
 public class Verse {
 
     public String _id;
     public String book_name;
     public int book_id;
     public int chapter;
-    public int verse_num;
+    public Integer verse_num;
     public String text;
 
     public Verse(String _id, String book_name, int book_id, int chapter, int verse_num, String text) {

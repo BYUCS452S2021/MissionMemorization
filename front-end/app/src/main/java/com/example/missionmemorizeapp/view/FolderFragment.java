@@ -48,7 +48,7 @@ public class FolderFragment extends Fragment implements GetVersesTask.GetVersesO
     Folder folder;
 
     FolderPresenter presenter;
-    FolderFragment fragment;
+    FolderFragment fragment = this;
 
 
     public FolderFragment(Folder folder) {
@@ -97,7 +97,7 @@ public class FolderFragment extends Fragment implements GetVersesTask.GetVersesO
             verses_ids.add(verse._id);
         }
 
-        NewProjectTask task = new NewProjectTask(presenter, this, folder.folder_id, response.getVerses());
+        NewProjectTask task = new NewProjectTask(presenter, this, folder._id, response.getVerses());
         NewProjectRequest request = new NewProjectRequest(CurrentSessionHolder.getInstance().getSignedInUser().getUser_id(), verses_ids);
         task.execute(request);
     }

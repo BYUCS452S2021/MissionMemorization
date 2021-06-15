@@ -3,6 +3,7 @@ package com.example.missionmemorizeapp.view.tasks;
 import android.os.AsyncTask;
 
 import com.example.missionmemorizeapp.presenter.HomePresenter;
+import com.example.missionmemorizeapp.presenter.ProjectPresenter;
 import com.example.missionmemorizeapp.services.request.DeleteFolderRequest;
 import com.example.missionmemorizeapp.services.response.DeleteFolderResponse;
 
@@ -10,9 +11,9 @@ public class DeleteFolderTask extends AsyncTask<DeleteFolderRequest, Void, Delet
 
     private final HomePresenter presenter;
     private final DeleteFolderObserver observer;
-    private int folder_id;
+    private String folder_id;
 
-    public DeleteFolderTask(HomePresenter presenter, DeleteFolderObserver observer, int folder_id) {
+    public DeleteFolderTask(HomePresenter presenter, DeleteFolderObserver observer, String folder_id) {
         this.presenter = presenter;
         this.observer = observer;
         this.folder_id = folder_id;
@@ -39,6 +40,5 @@ public class DeleteFolderTask extends AsyncTask<DeleteFolderRequest, Void, Delet
     @Override
     protected void onPostExecute(DeleteFolderResponse response) {
         observer.onDeleteFolderResult(response);
-        // should use findViewById(R.id.root_view).invalidate(); to refresh layout
     }
 }
