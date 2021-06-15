@@ -1,0 +1,96 @@
+diff --git a/back-end/folders.js b/back-end/folders.js
+index 1b7ae34..f14cd47 100644
+
+These changes make the app and API work together, but you will need to fix some things after applying this patch
+First, the app does nothing to keep track of user session info, so you'll see the validUser function being ignored,
+obviously in a production app, it should be used.
+Second, there is a circular dependency between folders.js and projects.js that keeps the delete folder functionality
+from working.  This might be solved if you change either the folder or project schema so that only one depends on the other.
+
+--- a/back-end/folders.js
++++ b/back-end/folders.js
+@@ -21,7 +21,7 @@ const Folder = mongoose.model('Folder', folderSchema);
+ 
+ 
+  // make a new folder
+- router.post("/", validUser, async (req, res) => {
++ router.post("/", async (req, res) => {
+   try {
+       // Make sure that the request includes user_id and folder_name,
+       // otherwise return an error.
+@@ -58,7 +58,7 @@ const Folder = mongoose.model('Folder', folderSchema);
+ });
+ 
+ // Retrieve all of a users folders
+-router.get("/all", validUser, async (req, res) => {
++router.get("/all", async (req, res) => {
+   if (!req.body.user_id) {
+     return res.status(400).send({
+       message: "Must include user_id in request"
+@@ -86,7 +86,7 @@ router.get("/all", validUser, async (req, res) => {
+ });
+ 
+ // Delete specified folder
+-router.delete("/:folder_id", validUser, async (req, res) => {
++router.delete("/:folder_id", async (req, res) => {
+   try{
+     let folder = await Folder.findOne({_id:req.params.folder_id});
+     if(folder == null){
+@@ -102,7 +102,7 @@ router.delete("/:folder_id", validUser, async (req, res) => {
+     return res.status(200).send({
+       message: "Folder deleted successfully"
+     });
+-  } catch {
++  } catch (error) {
+     console.log(error);
+     return res.sendStatus(500);
+   }
+diff --git a/back-end/users.js b/back-end/users.js
+index 8dab463..6f6e248 100644
+--- a/back-end/users.js
++++ b/back-end/users.js
+@@ -1,8 +1,7 @@
+ const express = require("express");
+ const mongoose = require('mongoose');
+ const argon2 = require("argon2");
+-const { getProjects } = require('./projects');
+-
++const { Project, getProjects, getProjectsInFolder, getAllFolders } = require('./projects');
+ const router = express.Router();
+ 
+ //
+@@ -184,11 +183,29 @@ router.post('/login', async (req, res) => {
+ 
+     const projectPromise = getProjects(user._id);
+     projectPromise.then(allProjects => {
+-      console.log(user);
+-      console.log(allProjects);
+-      return res.send({
+-        user: user,
+-        projects: allProjects
++
++      const folderPromise = getAllFolders(user._id);
++      folderPromise.then(async allFolders => {
++
++        if (allFolders.constructor !== Array)
++          allFolders = [].push(allFolders);
++
++        allFolders = JSON.parse(JSON.stringify(allFolders));
++
++        for (const folder of allFolders) {
++          folder.projects = await Project.find({folder_id: folder._id}, function(err, allProjectsInFolder) {
++            if (allProjectsInFolder.constructor !== Array)
++              return [].push(allProjectsInFolder);
++            else return allProjectsInFolder;
++          }).populate("verse_ids");
++
++        }
++
++        return res.send({
++          user: user,
++          projects: allProjects,
++          folders: allFolders
++        });
+       });
+     });
+ 
